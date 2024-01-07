@@ -2,10 +2,6 @@ import { NextResponse } from "next/server";
 import {
   collection,
   doc,
-  setDoc,
-  getDoc,
-  onSnapshot,
-  uns,
   query,
   addDoc,
   where,
@@ -15,8 +11,8 @@ import {
   deleteDoc,
 } from "firebase/firestore";
 import { db } from "@/utils/firebase";
+export const dynamic = "force-dynamic";
 
-// {peers : ["",""] , peersCount : 2 , caller : "peerId"}
 export async function GET(request) {
   try {
     let queId = null;

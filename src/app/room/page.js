@@ -28,10 +28,11 @@ import { getPeerIdfromSession, setPeerIdfromSession } from "@/utils/functions";
 import Message from "@/components/room/Message";
 
 import { IoMdSend } from "react-icons/io";
+export const dynamic = "force-dynamic";
 
 async function getRoomId(id) {
   try {
-    const res = await fetch("/api/room?id=" + id);
+    const res = await fetch("/api/room?id=" + id, { cache: "no-store" });
     return res.json();
   } catch (err) {
     return { error: err.message };
@@ -39,7 +40,7 @@ async function getRoomId(id) {
 }
 async function addToQue(id) {
   try {
-    const res = await fetch("/api/addque?id=" + id);
+    const res = await fetch("/api/addque?id=" + id, { cache: "no-store" });
     return res.json();
   } catch (err) {
     return { error: err.message };
