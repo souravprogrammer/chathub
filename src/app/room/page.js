@@ -8,7 +8,8 @@ import React, {
 } from "react";
 import { Button } from "@/components/ui/button";
 import Stream from "@/components/room/Stream";
-import { Peer } from "peerjs";
+// import { Peer } from "peerjs";
+import { Peer } from "@/lib/PeerJs";
 import {
   collection,
   doc,
