@@ -1,15 +1,20 @@
 "use client";
 const { useState, useEffect, useCallback } = require("react");
 
-const useMediaStream = () => {
+const useMediaStream = ({ askPermission = false }) => {
   const [mediaStream, setMediaStream] = useState(null);
+  const [isAllowed, setIsAllowed] = useState(!!askPermission);
   const [error, setError] = useState(null);
 
   useEffect(() => {
     const getUserMedia = async () => {
       try {
-        const stream = await navigator.mediaDevices.getUserMedia({
-          video: true,
+        let getUserMedia =
+          navigator.mediaDevices.getUserMedia ||
+          navigator.mediaDevices.webkitGetUserMedia ||
+          navigator.mediaDevices.mozGetUserMedia;
+        const stream = await getUserMedia({
+          video: { facingMode: "user" },
           audio: true,
         });
         setMediaStream(stream);
@@ -18,7 +23,7 @@ const useMediaStream = () => {
       }
     };
 
-    if (!mediaStream) {
+    if (!mediaStream && isAllowed) {
       getUserMedia();
     }
 
@@ -27,9 +32,13 @@ const useMediaStream = () => {
         mediaStream.getTracks().forEach((track) => track.stop());
       }
     };
-  }, [mediaStream]);
+  }, [mediaStream, isAllowed]);
 
-  return { mediaStream, error };
+  const AskPermission = () => {
+    setIsAllowed(true);
+  };
+
+  return { mediaStream, error, AskPermission };
 };
 
 export { useMediaStream };

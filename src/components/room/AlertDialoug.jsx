@@ -1,3 +1,4 @@
+"use client";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -12,6 +13,7 @@ import Link from "next/link";
 export default function AlertDialogRoom({
   title = "Camera NotFound",
   description = ``,
+  children,
   ...props
 }) {
   return (
@@ -23,11 +25,7 @@ export default function AlertDialogRoom({
             <AlertDialogDescription>{description}</AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            {/* <AlertDialogCancel>Cancel</AlertDialogCancel> */}
-            <AlertDialogAction>
-              {" "}
-              <Link href="/">home</Link>
-            </AlertDialogAction>
+            <AlertDialogAction> {children}</AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>

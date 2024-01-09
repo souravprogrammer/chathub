@@ -8,26 +8,20 @@ import React, {
 } from "react";
 import { Button } from "@/components/ui/button";
 import Stream from "@/components/room/Stream";
-// import { Peer } from "peerjs";
 import { Peer } from "@/lib/PeerJs";
-import {
-  collection,
-  doc,
-  setDoc,
-  getDoc,
-  onSnapshot,
-  uns,
-  query,
-  addDoc,
-  where,
-} from "firebase/firestore";
+import Link from "next/link";
+import { doc, onSnapshot } from "firebase/firestore";
 import { db } from "@/utils/firebase";
 import { useMediaStream } from "@/lib/hooks";
 import AlertDialogRoom from "@/components/room/AlertDialoug";
 import { getPeerIdfromSession, setPeerIdfromSession } from "@/utils/functions";
 import Message from "@/components/room/Message";
+import { FaArrowRight } from "react-icons/fa";
 
 import { IoMdSend } from "react-icons/io";
+import { IoArrowBackOutline } from "react-icons/io5";
+import { PiChatTeardropTextBold } from "react-icons/pi";
+
 export const dynamic = "force-dynamic";
 
 async function getRoomId(id) {
@@ -86,13 +80,12 @@ function reducer(state, action) {
   }
 }
 function Page() {
-  // const [myStream, setMyStream] = useState(null);
   const [state, dispatch] = useReducer(reducer, initialState);
-  const { mediaStream, error } = useMediaStream();
-  // const [remoreStream, setRemoreStream] = useState(null);
-  // const [roomId, setRoomId] = useState(null);
-  // const [messages, setMessages] = useState([]);
-
+  const [status, setStatus] = useState("");
+  const [responsiveChat, setResponsive] = useState(false);
+  const { mediaStream, error, AskPermission } = useMediaStream({
+    askPermission: true,
+  });
   const closeCall = useRef(null);
   const myPeer = useRef(null);
   const roomUnSub = useRef(null);
@@ -120,6 +113,7 @@ function Page() {
     onOpen: async (id) => {
       setPeerIdfromSession(id);
       console.log("onOpen");
+      setStatus("Waiting...");
       startChat(id);
     },
     onData: async (data) => {
@@ -133,7 +127,9 @@ function Page() {
       dispatch(remoreStreamAction(remoreStream));
     },
     onCall: async (call) => {
-      console.log("call", call);
+      console.log("call");
+      closeCall.current = call;
+      setStatus("connecting...");
 
       try {
         const str = await navigator.mediaDevices.getUserMedia({
@@ -145,11 +141,15 @@ function Page() {
         call.on("close", () => {
           console.log("call ended");
           call.close();
-          dispatch(remoreStreamAction(null));
+          const id = getPeerIdfromSession();
+          setStatus("Waiting...");
+
+          startChat(id);
+          // dispatch(remoreStreamAction(null));
+          dispatch(resetAction(null));
 
           // setRemoreStream(null);
         });
-        closeCall.current = call;
       } catch (err) {
         console.log("onCall error>>", err.message);
       }
@@ -162,13 +162,22 @@ function Page() {
         connection.on("data", peerEvents.current.onData);
       });
     },
+    onDisconnect: async () => {
+      console.log("disconnect");
+      closeCall.current?.close();
+    },
     onError: async (err) => {
       console.log("err", err);
       const id = getPeerIdfromSession();
+      setStatus("Waiting...");
+
       startChat(id);
     },
     onClose: async () => {
       console.log("call close peer");
+    },
+    beforeUnloadHandler: () => {
+      closeCall.current?.close();
     },
   });
 
@@ -186,11 +195,16 @@ function Page() {
     myPeer.current?.on("connection", peerEvents.current.onConnection);
 
     myPeer.current?.on("close", peerEvents.current.onClose);
+
+    myPeer.current?.on("disconnected", peerEvents.current.onDisconnect);
+
     myPeer.current.on("error", peerEvents.current.onError);
     return () => {
       myPeer.current?.off("open", peerEvents.current.onOpen);
       myPeer.current?.off("error", peerEvents.current.onError);
       myPeer.current?.off("call", peerEvents.current.onCall);
+      myPeer.current?.off("close", peerEvents.current.onClose);
+
       myPeer.current?.off("connection", peerEvents.current.onConnection);
 
       myPeer.current?.destroy();
@@ -202,10 +216,8 @@ function Page() {
     async (room_id) => {
       if (typeof room_id !== "string") return () => {};
       return onSnapshot(doc(db, "room", room_id), async (d) => {
-        console.log("snap", d.data());
         const id = getPeerIdfromSession();
         const info = d.data();
-        console.log(info?.caller === id, info?.caller, id);
         if (info?.caller === id) {
           const remotePeer = info.peers.find((f) => f !== id);
           if (remotePeer) {
@@ -214,32 +226,35 @@ function Page() {
                 video: true,
                 audio: true,
               });
-              console.log("str", str, remotePeer);
+              console.log("calling...");
               let call = myPeer.current.call(remotePeer, str, {
                 constraints: {
                   offerToReceiveAudio: true,
                   offerToReceiveVideo: true,
                 },
               });
+              setStatus("connecting...");
               const conn = myPeer.current.connect(remotePeer);
               conn.on("open", function () {
                 datasend.current = conn;
                 conn.on("data", function (data) {
                   console.log("Received", data);
                   dispatch(setMessagesAction(data));
-                  // setMessages((m) => [...m, data]);
                 });
-                // conn.send("Hello!");
               });
               call.on("stream", (remoreStr) => {
+                closeCall.current = call;
                 console.log("remore stream", remoreStr);
                 // setRemoreStream(remoreStr);
                 dispatch(remoreStreamAction(remoreStr));
               });
-              call.on("close", (remoreStr) => {
+              call.on("close", () => {
                 console.log("call closed");
-                call.close();
-                // setRemoreStream(null);
+
+                const id = getPeerIdfromSession();
+                setStatus("Waiting...");
+
+                startChat(id);
                 dispatch(remoreStreamAction(null));
               });
               call.on("error", (err) => {
@@ -270,9 +285,7 @@ function Page() {
       closeCall.current?.close();
       datasend.current = null;
       closeCall.current = null;
-      // setRoomId(null);
-      // setMessages([]);
-      // setRemoreStream(null);
+
       dispatch(resetAction());
       const id = getPeerIdfromSession();
       startChat(id);
@@ -283,26 +296,64 @@ function Page() {
     roomUnSub.current = listenOnRoom(state.roomId);
   }, [state.roomId]);
 
+  useEffect(() => {
+    window.addEventListener(
+      "beforeunload",
+      peerEvents.current.beforeUnloadHandler
+    );
+
+    return () => {
+      window.removeEventListener(
+        "beforeunload",
+        peerEvents.current.beforeUnloadHandler
+      );
+    };
+  }, []);
+
   return (
-    <main className="container flex flex-col">
+    <main className="relative flex flex-col overflow-hidden md:container">
       <header className="h-[75px] flex justify-between items-center container">
-        <h4 className="text-4xl font-bold">chatHub</h4>
-        <Button onClick={nextRoom}>next Chat</Button>
+        <Link href="/">
+          <h4 className="text-4xl font-bold">chatHub</h4>
+        </Link>
+        <Button onClick={nextRoom}>
+          <div className="flex items-center gap-2">
+            <span>Next Room</span>
+            <FaArrowRight />
+          </div>
+        </Button>
       </header>
+      <div className="absolute bottom-[34px] z-10 md:hidden lg:hidden right-[14px]">
+        <Button
+          variant="secondary"
+          onClick={() => {
+            setResponsive(true);
+          }}
+        >
+          <PiChatTeardropTextBold />
+        </Button>
+      </div>
       <div className="flex flex-row h-[calc(100dvh-75px)]">
         <div className="flex flex-col flex-1 gap-2 p-2">
+          <Stream stream={state.remoreStream} remote={true} status={status} />
           <Stream stream={mediaStream} muted />
-          <Stream stream={state.remoreStream} />
         </div>
-        <div className="border border-indigo-200 w-[400px] flex flex-col gap-2 p-2">
-          {/* {err}
-          <Button
-            onClick={async () => {
-              closeCall.current?.close();
-            }}
-          >
-            close conenction
-          </Button> */}
+        <div
+          className={`transition-all duration-300 ease-linear z-[20] border bg-white border-indigo-200 h-[100dvh] md:h-[calc(100%)] w-[calc(100%-34px)] md:w-[400px] flex md:flex flex-col gap-2 p-2 absolute md:static top-0 ${
+            responsiveChat ? " left-[34px]" : "left-[110%]"
+          }`}
+        >
+          <div className="flex md:hidden lg:hidden">
+            <Button
+              variant="outline"
+              onClick={() => {
+                setResponsive(false);
+              }}
+            >
+              <IoArrowBackOutline />
+              back
+            </Button>
+          </div>
           <div
             data-te-perfect-scrollbar-init
             className="flex flex-col flex-1 gap-2 overflow-x-hidden overflow-y-scroll"
@@ -319,13 +370,14 @@ function Page() {
             })}
           </div>
           <form
-            className="flex bg-[#F2F2F2] p-1 gap-1 overflow-hidden rounded-lg"
+            className="flex bg-[#F2F2F2] p-1 gap-1 overflow-hidden rounded-lg w-[100%]"
             onSubmit={sendMessage}
           >
             <input
               className="flex-1 bg-[#F2F2F2] placeholder-[#898989] focus:outline-none"
               placeholder="Type a message"
               name="message"
+              required
             />
             <Button
               variant="ghost"
@@ -338,11 +390,14 @@ function Page() {
           </form>
         </div>
       </div>
+
       <AlertDialogRoom
         open={!!error}
         title="Camera Not Detected"
         description={`Unable to initiate video call: A camera device was not detected. Please ensure that a compatible camera is connected and properly configured. Without a functioning camera, starting a video call is not possible. Kindly check your camera settings and connections, then try again. If the issue persists, consider troubleshooting your camera hardware or contacting technical support for assistance. Thank you for your understanding.`}
-      />
+      >
+        <Link href="/">home</Link>
+      </AlertDialogRoom>
     </main>
   );
 }
