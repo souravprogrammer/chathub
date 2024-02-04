@@ -101,9 +101,9 @@ export default function Home() {
             <div className="flex-1 max-w-[550px] p-6 gap-4 flex flex-col">
               <h2 className="text-2xl font-bold">From Strangers to Friends</h2>
               <p>
-                Turn random online chats with strangers into lasting
+                {`Turn random online chats with strangers into lasting
                 friendships, our features makes it easy to add someone you've
-                hit it off with and catch up on past conversations.
+                hit it off with and catch up on past conversations.`}
               </p>
             </div>
           </div>
