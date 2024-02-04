@@ -1,5 +1,11 @@
 "use client";
-const { useState, useEffect, useCallback } = require("react");
+const {
+  useState,
+  useEffect,
+  useCallback,
+  useLayoutEffect,
+  useRef,
+} = require("react");
 
 const useMediaStream = ({ askPermission = false }) => {
   const [mediaStream, setMediaStream] = useState(null);
@@ -41,4 +47,19 @@ const useMediaStream = ({ askPermission = false }) => {
   return { mediaStream, error, AskPermission };
 };
 
-export { useMediaStream };
+const useSound = (url) => {
+  const soundRef = useRef(null);
+
+  useLayoutEffect(() => {
+    soundRef.current = new Audio(url);
+    return () => {
+      soundRef.current = null;
+    };
+  }, []);
+
+  const play = () => {
+    soundRef.current?.play();
+  };
+  return { play };
+};
+export { useMediaStream, useSound };

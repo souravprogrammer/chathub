@@ -10,7 +10,9 @@ import {
   where,
   getDocs,
   limit,
+  serverTimestamp,
 } from "firebase/firestore";
+
 import { db } from "@/utils/firebase";
 export async function GET(request) {
   try {
@@ -30,8 +32,11 @@ export async function GET(request) {
       );
 
     const que = collection(db, "que");
+    const timestamp = serverTimestamp();
+
     await addDoc(que, {
       id: id,
+      timestamp,
     });
     return NextResponse.json(
       { message: "added to a que", code: 1 },

@@ -9,7 +9,10 @@ import {
   limit,
   updateDoc,
   deleteDoc,
+  serverTimestamp,
+  orderBy,
 } from "firebase/firestore";
+
 import { db } from "@/utils/firebase";
 export const dynamic = "force-dynamic";
 
@@ -52,7 +55,16 @@ export async function GET(request) {
       });
     }
 
-    const q = query(collection(db, "que"), where("id", "!=", id), limit(1));
+    // const q = query(
+    //   collection(db, "que"),
+    //   where("id", "!=", id),
+    //   orderBy("timestamp", "asc"),
+    //   limit(1)
+    // );
+
+    const q = query(collection(db, "que"), where("id", "!=", id), limit(50));
+
+    // Step 2: Retrieve the documents sorted by timestamp
     const querySnapshot = await getDocs(q);
     let remoteUser = null;
     querySnapshot.forEach((doc) => {
@@ -64,10 +76,13 @@ export async function GET(request) {
 
     if (remoteUser) {
       const que = collection(db, "room");
+      const timestamp = serverTimestamp();
+
       const data = await addDoc(que, {
         peers: [id, remoteUser.data.id],
         peersCount: 2,
         caller: id,
+        timestamp,
       });
 
       await deleteDoc(doc(db, "que", queId));
@@ -79,15 +94,23 @@ export async function GET(request) {
     } else {
       // you aare the only waiting in the que
 
+      // const q = query(
+      //   collection(db, "room"),
+      //   where("peersCount", "==", 1),
+      //   orderBy("timestamp", "asc"),
+      //   limit(1)
+      // );
       const q = query(
         collection(db, "room"),
         where("peersCount", "==", 1),
-        limit(1)
+        limit(100)
       );
+
       const roomQuerySnapshot = await getDocs(q);
 
       let roomID = null;
       roomQuerySnapshot.forEach((doc) => {
+        console.log("here", { id: doc.id, data: doc.data() });
         roomID = { id: doc.id, data: doc.data() };
       });
 
@@ -111,11 +134,13 @@ export async function GET(request) {
         });
       } else {
         console.log("else room");
+        const timestamp = serverTimestamp();
 
         const data = await addDoc(room, {
           peers: [id],
           peersCount: 1,
           caller: id,
+          timestamp,
         });
         await deleteDoc(doc(db, "que", queId));
         return NextResponse.json({

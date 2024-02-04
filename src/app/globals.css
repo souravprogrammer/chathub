@@ -2,6 +2,42 @@
 @tailwind components;
 @tailwind utilities;
 
+/* @layer base {
+  :root {
+ 
+    --gradient: #4f46e5;
+
+    --background: 259 48.75% 4.72%;
+    --foreground: 259 7.5% 97.95%;
+
+    --muted: 259 37.5% 17.7%;
+    --muted-foreground: 259 7.5% 55.9%;
+
+    --popover: 259 50% 7.67%;
+    --popover-foreground: 259 7.5% 97.95%;
+
+    --card: 259 50% 7.67%;
+    --card-foreground: 259 7.5% 97.95%;
+
+    --border: 259 37.5% 17.7%;
+    --input: 259 37.5% 17.7%;
+
+    --primary: 259 75% 59%;
+    --primary-foreground: 259 7.5% 5.8999999999999995%;
+
+    --secondary: 259 37.5% 17.7%;
+    --secondary-foreground: 259 7.5% 97.95%;
+
+    --accent: 259 37.5% 17.7%;
+    --accent-foreground: 259 7.5% 97.95%;
+
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 259 7.5% 97.95%;
+
+    --ring: 259 75% 59%;
+  }
+} */
+
 @layer base {
   :root {
     --background: 0 0% 100%;

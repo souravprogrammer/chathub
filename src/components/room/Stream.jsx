@@ -26,9 +26,9 @@ export default function Stream({
     };
   }, [stream]);
   return (
-    <div className="relative flex items-center justify-center flex-1 overflow-hidden border rounded-sm bg-primary">
+    <div className="relative flex items-center justify-center flex-1 overflow-hidden rounded-sm bg-primary-foreground/80">
       {!!stream && allow ? (
-        <div className="absolute w-[100%] h-[100%] bg-[#b7b0b0]  flex justify-center items-center flex-col gap-4 backdrop-blur-[100px] z-[10]">
+        <div className="absolute w-[100%] h-[100%] bg-[#b7b0b0]  flex justify-center items-center flex-col gap-4 backdrop-blur-[100px] z-[5]">
           <p>You are currently hiding your partners video.</p>
           <Button
             onClick={() => {
@@ -52,7 +52,7 @@ export default function Stream({
           playsInline
         />
       ) : (
-        <div className="w-[100%] h-[100%] bg-primary flex justify-center items-center flex-col gap-2">
+        <div className="w-[100%] h-[100%]  flex justify-center items-center flex-col gap-2">
           <Loader />
           <span className="text-white">{status}</span>
         </div>

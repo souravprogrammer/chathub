@@ -1,7 +1,7 @@
-import { Inter, Signika } from "next/font/google";
-import "./globals.css";
+import { Inter } from "next/font/google";
+import HeaderStatic from "@/components/common/headerStatic";
+import Footer from "@/components/common/footer";
 const inter = Inter({ subsets: ["latin"] });
-const signika = Signika({ subsets: ["latin"] });
 
 export const metadata = {
   title: "Banter - Talk to strangers",
@@ -11,8 +11,10 @@ export const metadata = {
 };
 export default function RootLayout({ children }) {
   return (
-    <html lang="en" className="dark">
-      <body className={signika.className}>{children}</body>
-    </html>
+    <div className="relative">
+      <HeaderStatic />
+      {children}
+      <Footer />
+    </div>
   );
 }
