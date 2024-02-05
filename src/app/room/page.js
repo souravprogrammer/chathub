@@ -30,36 +30,37 @@ function Page() {
     mediaStream,
     callPeer,
     isOpen,
+    connectionError,
   } = useRoom();
-  const [status, setStatus] = useState("looking");
+  const [status, setStatus] = useState("waiting");
   const [startClicked, setStartClicked] = useState(false);
   const [responsiveChat, setResponsive] = useState(false);
 
   useEffect(() => {
     const onDisconenct = () => {
-      console.log("connected peer is disconnected");
+      // console.log("connected peer is disconnected");
       disconnectPeer({ emit: false });
-      setStatus("looking");
+      // setStatus("looking");
     };
     const onPeerMatched = (data) => {
       // Call the remore peer here
       console.log("peer matched");
       // problem is here
-      setStatus("connecting");
+      // setStatus("connecting");
 
       io.emit("is_busy", data);
       // callPeer(data.peerId, data.id);
     };
     const onIncomingCall = () => {
       // peere will call me shortly here
-      setStatus("connecting");
+      // setStatus("connecting");
       console.log("incoming call request");
     };
     const onPeerStatus = (data) => {
       console.log("peer status", data);
 
       if (data) {
-        setStatus("connected");
+        // setStatus("connected");
 
         callPeer(data.peerId, data.id);
       }
@@ -117,7 +118,6 @@ function Page() {
           startClicked={isOpen ? startClicked : true}
         />
       </div>
-
       <div className="absolute bottom-[34px] z-10 md:hidden lg:hidden right-[14px]">
         <Button
           variant="secondary"
@@ -134,7 +134,7 @@ function Page() {
           <Stream stream={mediaStream} muted />
         </div>
         <div
-          className={`transition-all duration-300 ease-linear z-[20] border  border-indigo-200/20 h-[100dvh] md:h-[calc(100%)] w-[calc(100%-34px)] md:w-[400px] flex md:flex flex-col gap-2 p-2 absolute md:static top-0 ${
+          className={`transition-all duration-300 ease-linear z-[20] border bg-background  border-indigo-200/20 h-[100dvh] md:h-[calc(100%)] w-[calc(100%-34px)] md:w-[400px] flex md:flex flex-col gap-2 p-2 absolute md:static top-0 ${
             responsiveChat ? " left-[34px]" : "left-[110%]"
           }`}
         >
@@ -196,9 +196,22 @@ function Page() {
       </div>
 
       <AlertDialogRoom
+        open={!!connectionError}
+        title="Server Down"
+        description={`We apologize, but our server is currently experiencing technical difficulties and is unavailable.
+         Our team is working diligently to resolve the issue as quickly as possible. Thank you for your patience.`}
+      >
+        <Link href="/">home</Link>
+      </AlertDialogRoom>
+      <AlertDialogRoom
         open={!!mediaStreamError}
         title="Camera Not Detected"
-        description={`Unable to initiate video call: A camera device was not detected. Please ensure that a compatible camera is connected and properly configured. Without a functioning camera, starting a video call is not possible. Kindly check your camera settings and connections, then try again. If the issue persists, consider troubleshooting your camera hardware or contacting technical support for assistance. Thank you for your understanding.`}
+        description={`Unable to initiate video call: A camera device was not detected.
+         Please ensure that a compatible camera is connected and properly configured.
+          Without a functioning camera, starting a video call is not possible.
+           Kindly check your camera settings and connections, then try again. 
+           If the issue persists, consider troubleshooting your camera hardware or contacting technical support for assistance.
+            Thank you for your understanding.`}
       >
         <Link href="/">home</Link>
       </AlertDialogRoom>

@@ -15,10 +15,10 @@ function Footer() {
           {/* <h1>Banter</h1> */}
           <Image alt={"logo"} src={"/logo_ban.png"} width={150} height={44} />
         </div>
-        <div className="flex items-center justify-center flex-1 gap-8">
+        {/* <div className="flex items-center justify-center flex-1 gap-8">
           <Link href="#">Terms of service</Link>
           <Link href="#">Privacy Policy</Link>
-        </div>
+        </div> */}
         <div className="flex gap-2">
           <Button variant="outline">
             <BiLogoInstagramAlt />
@@ -31,7 +31,14 @@ function Footer() {
           </Button>
         </div>
       </div>
-      <p>All rights reserved.</p>
+      <div>
+        <div className="flex items-center justify-center flex-1 gap-8">
+          <Link href="/terms">Terms of service</Link>
+          <Link href="#">Privacy Policy</Link>
+          <Link href="/guidelines">Community Guidelines</Link>
+        </div>
+      </div>
+      <p>All rights reserved. Banter 2024</p>
     </footer>
   );
 }

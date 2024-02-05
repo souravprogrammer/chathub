@@ -60,6 +60,7 @@ function reducer(state, action) {
 function RoomProvider({ children, mode }) {
   const meRef = useRef(null);
   const [isOpen, setIsOpen] = useState(false);
+  const [connectionError, setConnectionError] = useState(null);
   const [state, dispatch] = useReducer(reducer, initialState);
   const messageSound = useSound("/audios/receive.mp3");
   const disconnectSound = useSound("/audios/disconnect.mp3");
@@ -100,10 +101,15 @@ function RoomProvider({ children, mode }) {
       // closeCall.current = call;
 
       try {
-        const str = await navigator.mediaDevices.getUserMedia({
-          video: true,
+        let getUserMedia =
+          navigator.mediaDevices.getUserMedia ||
+          navigator.mediaDevices.webkitGetUserMedia ||
+          navigator.mediaDevices.mozGetUserMedia;
+        const str = await getUserMedia({
+          video: { facingMode: "user" },
           audio: true,
         });
+
         call.answer(str);
         Peerconenction.current.call = call;
         dispatch(connectedAction(true));
@@ -141,23 +147,6 @@ function RoomProvider({ children, mode }) {
     },
     beforeUnloadHandler: () => {},
   });
-
-  // useEffect(() => {
-  //   const interval = setInterval(() => {
-  //     console.log("interval", interval, !state.remoteStream);
-
-  //     if (!state.remoteStream) {
-  //       socket.emit(Events.LOOK_FOR_PEER);
-  //     } else {
-  //       clearInterval(interval);
-  //     }
-  //     console.log("interval", interval);
-  //   }, 10000);
-
-  //   return () => {
-  //     clearInterval(interval);
-  //   };
-  // }, [state]);
 
   useEffect(() => {
     if (mode === "video") {
@@ -236,8 +225,28 @@ function RoomProvider({ children, mode }) {
 
   useEffect(() => {
     socket.connect();
+    const err = (err) => {
+      console.log("error socket", err.message);
+      setConnectionError(err.message);
+    };
+    const faild = (err) => {
+      console.log("faild socket", err.message);
+      setConnectionError(err.message);
+    };
+    const connectServer = () => {
+      setConnectionError(null);
+    };
+    socket.on("connect_error", err);
+    socket.on("connect_failed", faild);
+    socket.on("connect", connectServer);
+
     return () => {
       socket.close();
+      socket?.off("connect_error", err);
+      socket?.off("connect_failed", faild);
+      socket.off("connect", connectServer);
+
+      setConnectionError(null);
     };
   }, []);
   useEffect(() => {
@@ -257,6 +266,7 @@ function RoomProvider({ children, mode }) {
         callPeer,
         meRef,
         isOpen,
+        connectionError,
       }}
     >
       {children}

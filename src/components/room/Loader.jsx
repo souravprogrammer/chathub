@@ -1,6 +1,6 @@
 import React from "react";
 
-function Loader() {
+function Loader({ width, height }) {
   return (
     <div className="text-center">
       <div role="status">
