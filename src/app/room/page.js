@@ -44,7 +44,7 @@ function Page() {
     };
     const onPeerMatched = (data) => {
       // Call the remore peer here
-      console.log("peer matched");
+      // console.log("peer matched");
       // problem is here
       // setStatus("connecting");
 
@@ -54,10 +54,10 @@ function Page() {
     const onIncomingCall = () => {
       // peere will call me shortly here
       // setStatus("connecting");
-      console.log("incoming call request");
+      // console.log("incoming call request");
     };
     const onPeerStatus = (data) => {
-      console.log("peer status", data);
+      // console.log("peer status", data);
 
       if (data) {
         // setStatus("connected");
@@ -104,7 +104,7 @@ function Page() {
     if (state.connected) {
       setStartClicked(false);
     }
-    console.log("state", state);
+    // console.log("state", state);
   }, [state]);
 
   return (
@@ -162,7 +162,6 @@ function Page() {
               </div>
             ) : null}
             {state.messages.map((data, index) => {
-              console.log(data);
               return (
                 <Message
                   key={index}

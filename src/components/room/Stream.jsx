@@ -33,7 +33,7 @@ export default function Stream({
           <Button
             onClick={() => {
               setAllow(false);
-              console.log("click");
+              // console.log("click");
             }}
           >
             Allow Video

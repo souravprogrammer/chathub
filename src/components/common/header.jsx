@@ -33,7 +33,9 @@ function Header({
   return (
     <header className="h-[75px] flex justify-between items-center container">
       <Link href="/">
-        <Image alt={"logo"} src={"/logo_ban.png"} width={150} height={44} />
+        <div className="w-[95px]  md:w-[150px]">
+          <Image alt={"logo"} src={"/logo_ban.png"} width={150} height={44} />
+        </div>
       </Link>
 
       <div className="flex items-center gap-6">

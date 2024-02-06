@@ -10,8 +10,8 @@ export const metadata = {
 
 function Page() {
   return (
-    <div className="flex p-[75px] justify-center  min-h-[calc(100dvh-144px)]">
-      <div className="flex flex-col items-center w-[56%] gap-2 ">
+    <div className="flex px-4 py-[75px]  md:p-[75px] justify-center  min-h-[calc(100dvh-144px)]">
+      <div className="flex flex-col items-center w-[100%] md:w-[56%] gap-2 ">
         <Image src="/logo_hub.webp" width={200} height={200} alt="logo" />
         <h2 className="h-3 mb-10 text-3xl font-bold">Our Story</h2>
         <div className="contents">

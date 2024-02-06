@@ -11,9 +11,9 @@ export const metadata = {
 };
 export default function RootLayout({ children }) {
   return (
-    <div className="relative">
+    <div className="relative min-h-[100dvh] flex flex-col">
       <HeaderStatic />
-      {children}
+      <div className="flex-1">{children}</div>
       <Footer />
     </div>
   );

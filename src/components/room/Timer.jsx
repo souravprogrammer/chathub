@@ -18,7 +18,7 @@ const CountdownTimer = ({ initialSeconds, task, onComplete }) => {
 
   const handleClick = () => {
     // Start the countdown when the button is clicked
-    console.log(`Doing this task in ${initialSeconds} seconds...`);
+    // console.log(`Doing this task in ${initialSeconds} seconds...`);
 
     // You can perform additional actions related to the task here if needed
 

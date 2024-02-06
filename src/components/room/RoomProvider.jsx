@@ -82,7 +82,7 @@ function RoomProvider({ children, mode }) {
   }, []);
   const peerEvents = useRef({
     onOpen: async (id) => {
-      console.log("open");
+      // console.log("open");
       setIsOpen(true);
       socket.emit(Events.CONNECTPEER, new PeerData(id, mode)); // telling server to look for the peers to conect
     },
@@ -93,11 +93,11 @@ function RoomProvider({ children, mode }) {
     },
     onStream: async (remoreStream) => {
       // set the remore stream here
-      console.log("remore stream received");
+      // console.log("remore stream received");
       dispatch(remoreStreamAction(remoreStream));
     },
     onCall: async (call) => {
-      console.log("call");
+      // console.log("call");
       // closeCall.current = call;
 
       try {
@@ -116,11 +116,11 @@ function RoomProvider({ children, mode }) {
         call.on("stream", peerEvents.current.onStream);
         call.on("close", () => {
           // Call closed
-          console.log("call ended");
+          // console.log("call ended");
           call.close();
         });
       } catch (err) {
-        console.log("onCall error>>", err.message);
+        // console.log("onCall error>>", err.message);
       }
     },
     onConnection: async (connection) => {
@@ -128,7 +128,7 @@ function RoomProvider({ children, mode }) {
       connection.on("open", () => {
         // datasend.current = connection;
         Peerconenction.current.dataChannel = connection;
-        console.log("chat connection open");
+        // console.log("chat connection open");
         connection.send(
           new Message("user joined", meRef.current._id, "status")
         );
@@ -153,7 +153,7 @@ function RoomProvider({ children, mode }) {
       if (!mediaStream) return;
     }
 
-    console.log("creating peer.. ");
+    // console.log("creating peer.. ");
     const peer = new Peer();
     meRef.current = peer;
     // peer?.on("open", peerEvents.current.onOpen);
@@ -170,7 +170,7 @@ function RoomProvider({ children, mode }) {
       meRef.current?.off("call", peerEvents.current.onCall);
       meRef.current?.off("close", peerEvents.current.onClose);
       meRef.current?.off("error", peerEvents.current.onError);
-      console.log("event dittached");
+      // console.log("event dittached");
 
       // me?.destroy();
     };
@@ -185,7 +185,7 @@ function RoomProvider({ children, mode }) {
 
   const callPeer = useCallback(
     async (id, socketId) => {
-      console.log("me", id, mediaStream);
+      // console.log("me", id, mediaStream);
       let getUserMedia =
         navigator.mediaDevices.getUserMedia ||
         navigator.mediaDevices.webkitGetUserMedia ||
@@ -198,7 +198,7 @@ function RoomProvider({ children, mode }) {
         });
         const call = meRef.current?.call(id, stream);
         call?.on("stream", (incomingRemoteStream) => {
-          console.log("onStream");
+          // console.log("onStream");
           dispatch(remoreStreamAction(incomingRemoteStream));
           dispatch(connectedAction(true));
         });
@@ -208,7 +208,7 @@ function RoomProvider({ children, mode }) {
       // onConnection
       conn?.on("open", function () {
         // Receive messages
-        console.log("data connection open");
+        // console.log("data connection open");
         Peerconenction.current.dataChannel = conn;
         conn.send(new Message("user joined", meRef.current._id, "status"));
         dispatch(connectedAction(true));
@@ -226,11 +226,11 @@ function RoomProvider({ children, mode }) {
   useEffect(() => {
     socket.connect();
     const err = (err) => {
-      console.log("error socket", err.message);
+      // console.log("error socket", err.message);
       setConnectionError(err.message);
     };
     const faild = (err) => {
-      console.log("faild socket", err.message);
+      // console.log("faild socket", err.message);
       setConnectionError(err.message);
     };
     const connectServer = () => {
@@ -244,13 +244,13 @@ function RoomProvider({ children, mode }) {
       socket.close();
       socket?.off("connect_error", err);
       socket?.off("connect_failed", faild);
-      socket.off("connect", connectServer);
+      socket?.off("connect", connectServer);
 
       setConnectionError(null);
     };
   }, []);
   useEffect(() => {
-    console.log("open is", isOpen);
+    // console.log("open is", isOpen);
   }, [isOpen]);
 
   return (

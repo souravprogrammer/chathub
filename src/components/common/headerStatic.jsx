@@ -31,10 +31,13 @@ function HeaderStatic() {
           </div>
 
           <div className="hidden gap-4 md:flex">
+            <Link href={"/"} className="font-bold">
+              Home
+            </Link>
             <Link href={"/about"} className="font-bold">
               About
             </Link>
-            <Link href={"#"} className="font-bold">
+            <Link href={"/contact"} className="font-bold">
               Contact
             </Link>
           </div>
@@ -53,8 +56,11 @@ function HeaderStatic() {
           data-open={open}
           className="transition-all duration-300 flex flex-col items-center gap-4  data-[open=true]:h-[112px] h-0 overflow-hidden data-[open=true]:md:hidden md:hidden data-[open=true]:p-6"
         >
+          <Link href={"/"} className="font-bold">
+            Home
+          </Link>
           <Link href={"/about"}>About</Link>
-          <Link href={"#"}>Contact</Link>
+          <Link href={"/contact"}>Contact</Link>
         </div>
       </header>
     </div>

@@ -28,22 +28,22 @@ function Page() {
 
   useEffect(() => {
     const onDisconenct = () => {
-      console.log("connected peer is disconnected");
+      // console.log("connected peer is disconnected");
       disconnectPeer({ emit: false });
       setStartClicked(false);
     };
     const onPeerMatched = (data) => {
       // Call the remore peer here
-      console.log("peer matched");
+      // console.log("peer matched");
 
       io.emit("is_busy", data);
       connecSound.play();
     };
     const onIncomingCall = () => {
-      console.log("incoming call request");
+      // console.log("incoming call request");
     };
     const onPeerStatus = (data) => {
-      console.log("peer status", data);
+      // console.log("peer status", data);
 
       if (data) {
         callPeer(data.peerId, data.id);

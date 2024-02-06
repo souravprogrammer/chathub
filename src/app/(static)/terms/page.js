@@ -2,7 +2,7 @@ import React from "react";
 
 function Page() {
   return (
-    <div className="p-[80px] text-pretty">
+    <div className="px-4 py-[75px] md:p-[75px] text-pretty">
       <div className="container flex flex-col gap-6">
         <h1 className="text-4xl text-center bold">Terms and Conditions</h1>
         <div className="flex flex-col gap-4">
