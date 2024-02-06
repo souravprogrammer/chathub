@@ -54,7 +54,7 @@ function HeaderStatic() {
         </div>
         <div
           data-open={open}
-          className="transition-all duration-300 flex flex-col items-center gap-4  data-[open=true]:h-[112px] h-0 overflow-hidden data-[open=true]:md:hidden md:hidden data-[open=true]:p-6"
+          className="transition-all duration-300 flex flex-col items-center gap-4  data-[open=true]:h-[132px] h-0 overflow-hidden data-[open=true]:md:hidden md:hidden data-[open=true]:p-6"
         >
           <Link href={"/"} className="font-bold">
             Home

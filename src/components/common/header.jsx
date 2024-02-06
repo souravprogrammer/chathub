@@ -20,6 +20,8 @@ function Header({
   const { io } = useRoom();
 
   useEffect(() => {
+    if (videoHeader) return;
+
     const onlineUser = (data) => {
       setOnline(data.count);
     };
@@ -39,7 +41,7 @@ function Header({
       </Link>
 
       <div className="flex items-center gap-6">
-        <p className="text-green-400">{online} online</p>
+        {videoHeader ? null : <p className="text-green-400">{online} online</p>}
 
         {connected ? (
           <Button onClick={skip} variant="destructive">

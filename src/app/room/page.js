@@ -35,7 +35,11 @@ function Page() {
   const [status, setStatus] = useState("waiting");
   const [startClicked, setStartClicked] = useState(false);
   const [responsiveChat, setResponsive] = useState(false);
+  const [online, setOnline] = useState(0);
 
+  const onlineUser = (data) => {
+    setOnline(data.count);
+  };
   useEffect(() => {
     const onDisconenct = () => {
       // console.log("connected peer is disconnected");
@@ -71,12 +75,14 @@ function Page() {
     io?.on(Events.PEERDISCONENCT, onDisconenct);
     io?.on(Events.PEER_MATCHED, onPeerMatched);
     io?.on(Events.INCOMING_CALL_REQUEST, onIncomingCall);
+    io?.on("online", onlineUser);
 
     return () => {
       io?.off(Events.PEER_STATUS, onPeerStatus);
       io?.off(Events.PEERDISCONENCT, onDisconenct);
       io?.off(Events.PEER_MATCHED, onPeerMatched);
       io?.off(Events.INCOMING_CALL_REQUEST, onIncomingCall);
+      io?.off("online", onlineUser);
     };
   }, []);
 
@@ -90,9 +96,6 @@ function Page() {
 
     e.target?.reset();
   };
-  const nextRoom = async () => {
-    disconnectPeer();
-  };
   const skip = async () => {
     disconnectPeer();
   };
@@ -104,7 +107,6 @@ function Page() {
     if (state.connected) {
       setStartClicked(false);
     }
-    // console.log("state", state);
   }, [state]);
 
   return (
@@ -130,7 +132,7 @@ function Page() {
       </div>
       <div className="flex flex-row md:h-[calc(100dvh-75px)] h-[calc(100dvh)]">
         <div className="flex flex-col flex-1 gap-[1px] p-0 md:gap-2 md:p-2">
-          <Stream stream={state.remoteStream} remote={true} status={status} />
+          <Stream stream={state.remoteStream} remote={true} online={online} />
           <Stream stream={mediaStream} muted />
         </div>
         <div
@@ -195,7 +197,7 @@ function Page() {
       </div>
 
       <AlertDialogRoom
-        open={!!connectionError}
+        // open={!!connectionError}
         title="Server Down"
         description={`We apologize, but our server is currently experiencing technical difficulties and is unavailable.
          Our team is working diligently to resolve the issue as quickly as possible. Thank you for your patience.`}

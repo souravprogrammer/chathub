@@ -1,0 +1,32 @@
+{
+  "theme_color": "#020817",
+  "background_color": "#020817",
+  "display": "fullscreen",
+  "scope": "/",
+  "start_url": "/",
+  "name": "Banter",
+  "short_name": "Banter",
+  "description": "Chat with strangers and meet new friends in modern,free and random chat rooms, anonymous &#38; No Registration Required.Perfect for Mobile Chats, Girls Chat, Stranger Chats - a great one-on-one chats alternative to Omegle text.",
+  "icons": [
+    {
+      "src": "/icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/icon-256x256.png",
+      "sizes": "256x256",
+      "type": "image/png"
+    },
+    {
+      "src": "/icon-384x384.png",
+      "sizes": "384x384",
+      "type": "image/png"
+    },
+    {
+      "src": "/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
