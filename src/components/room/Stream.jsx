@@ -46,9 +46,9 @@ export default function Stream({
         <video
           muted={muted}
           ref={videoRef}
-          className="h-[100%] aspect-video"
+          className="h-[100%] aspect-video scale-x-[-1]"
           style={{
-            objectFit: "contain",
+            objectFit: "cover",
           }}
           autoPlay
           playsInline
