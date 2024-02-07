@@ -62,4 +62,34 @@ const useSound = (url) => {
   };
   return { play };
 };
-export { useMediaStream, useSound };
+const useNotification = () => {
+  const [notification, setNotification] = useState(null);
+
+  useEffect(() => {
+    // Request permission for browser notifications
+    Notification.requestPermission().then((permission) => {
+      console.log("Notification permission:", permission);
+    });
+  }, []);
+
+  const showNotification = (title, options) => {
+    if (!("Notification" in window)) {
+      // console.error("This browser does not support system notifications");
+    } else if (Notification.permission === "granted") {
+      // If permission is granted, show the notification
+      const newNotification = new Notification(title, options);
+      setNotification(newNotification);
+    } else if (Notification.permission !== "denied") {
+      // If permission has not been granted or denied, request permission again
+      Notification.requestPermission().then((permission) => {
+        if (permission === "granted") {
+          const newNotification = new Notification(title, options);
+          setNotification(newNotification);
+        }
+      });
+    }
+  };
+
+  return { showNotification, notification };
+};
+export { useMediaStream, useSound, useNotification };

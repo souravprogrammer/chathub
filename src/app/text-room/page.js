@@ -122,12 +122,14 @@ function Page() {
         >
           {/* bg-[#F2F2F2] placeholder-[#898989] */}
           <input
+            disabled={!state.connected}
             className="flex-1 bg-transparent focus:outline-none"
             placeholder="Type a message"
             name="message"
             required
           />
           <Button
+            disabled={!state.connected}
             variant="ghost"
             className="bg=[#F2F2F2] text-[#D0D0D0]"
             size="icon"

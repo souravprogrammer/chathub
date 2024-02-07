@@ -30,7 +30,7 @@ export default function Home() {
           <div className="container relative flex-1">
             <article className="left-0  absolute flex flex-row justify-center flex-1 py-10 gap-x-10 align-center w-[100%] h-[100%]">
               <div className="flex flex-col justify-center text-center gap-y-7 align-center">
-                <h4 className="text-5xl font-bold leading-relaxed">
+                <h4 className={"text-5xl font-bold leading-relaxed "}>
                   Talk to strangers,
                   <br /> Make Friends!
                 </h4>

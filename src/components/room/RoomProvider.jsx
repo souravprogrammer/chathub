@@ -12,7 +12,7 @@ import { io } from "socket.io-client";
 import { Peer } from "@/lib/PeerJs";
 import { Events, PeerData, Message } from "@/lib/Events";
 import { useMediaStream } from "@/lib/hooks";
-import { useSound } from "@/lib/hooks";
+import { useSound, useNotification } from "@/lib/hooks";
 const socket = io(process.env.NEXT_PUBLIC_SOCKET || "no_url");
 
 const RoomContext = createContext();
@@ -64,6 +64,7 @@ function RoomProvider({ children, mode }) {
   const [state, dispatch] = useReducer(reducer, initialState);
   const messageSound = useSound("/audios/receive.mp3");
   const disconnectSound = useSound("/audios/disconnect.mp3");
+  const { showNotification } = useNotification();
 
   const Peerconenction = useRef({});
   const { mediaStream, error, AskPermission } = useMediaStream({
@@ -90,6 +91,11 @@ function RoomProvider({ children, mode }) {
       // console.log("data=>", data);
       dispatch(setMessagesAction(data));
       messageSound.play();
+      if (document.hidden && data.type === "message") {
+        showNotification("Stranger :", {
+          body: data?.message,
+        });
+      }
     },
     onStream: async (remoreStream) => {
       // set the remore stream here
@@ -236,15 +242,20 @@ function RoomProvider({ children, mode }) {
     const connectServer = () => {
       setConnectionError(null);
     };
+    const onDisconnect = () => {
+      setIsOpen(false);
+    };
     socket.on("connect_error", err);
     socket.on("connect_failed", faild);
     socket.on("connect", connectServer);
+    socket.on("disconnect", onDisconnect);
 
     return () => {
       socket.close();
       socket?.off("connect_error", err);
       socket?.off("connect_failed", faild);
       socket?.off("connect", connectServer);
+      socket?.off("disconnect", onDisconnect);
 
       setConnectionError(null);
     };

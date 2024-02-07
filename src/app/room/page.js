@@ -1,22 +1,22 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
-import Stream from "@/components/room/Stream";
-import { Peer } from "@/lib/PeerJs";
 import Link from "next/link";
-import { useMediaStream } from "@/lib/hooks";
-import AlertDialogRoom from "@/components/room/AlertDialoug";
-import { getPeerIdfromSession, setPeerIdfromSession } from "@/utils/functions";
-import Message from "@/components/room/Message";
 
-import { FaArrowRight } from "react-icons/fa";
 import { IoMdSend } from "react-icons/io";
 import { IoArrowBackOutline } from "react-icons/io5";
 import { PiChatTeardropTextBold } from "react-icons/pi";
-import { useRoom, resetAction } from "@/components/room/RoomProvider";
+import { useRoom } from "@/components/room/RoomProvider";
 import { Events } from "@/lib/Events";
-import Header from "@/components/common/header";
-export const dynamic = "force-dynamic";
+// import Header from "@/components/common/header";
+// import Message from "@/components/room/Message";
+// import AlertDialogRoom from "@/components/room/AlertDialoug";
+
+import dynamic from "next/dynamic";
+const Header = dynamic(() => import("@/components/common/header"));
+const AlertDialogRoom = dynamic(() => import("@/components/room/AlertDialoug"));
+const Message = dynamic(() => import("@/components/room/Message"));
+const Stream = dynamic(() => import("@/components/room/Stream"));
 
 function Page() {
   const {
@@ -42,22 +42,14 @@ function Page() {
   };
   useEffect(() => {
     const onDisconenct = () => {
-      // console.log("connected peer is disconnected");
       disconnectPeer({ emit: false });
-      // setStatus("looking");
     };
     const onPeerMatched = (data) => {
-      // Call the remore peer here
-      // console.log("peer matched");
-      // problem is here
-      // setStatus("connecting");
-
       io.emit("is_busy", data);
       // callPeer(data.peerId, data.id);
     };
     const onIncomingCall = () => {
       // peere will call me shortly here
-      // setStatus("connecting");
       // console.log("incoming call request");
     };
     const onPeerStatus = (data) => {
@@ -179,12 +171,14 @@ function Page() {
             onSubmit={sendMessage}
           >
             <input
+              disabled={!state.connected}
               className="flex-1 bg-transparent focus:outline-none"
               placeholder="Type a message"
               name="message"
               required
             />
             <Button
+              disabled={!state.connected}
               variant="ghost"
               className="bg=[#F2F2F2] text-[#D0D0D0]"
               size="icon"
@@ -197,7 +191,7 @@ function Page() {
       </div>
 
       <AlertDialogRoom
-        // open={!!connectionError}
+        open={!!connectionError}
         title="Server Down"
         description={`We apologize, but our server is currently experiencing technical difficulties and is unavailable.
          Our team is working diligently to resolve the issue as quickly as possible. Thank you for your patience.`}
