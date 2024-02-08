@@ -17,14 +17,14 @@ export const metadata = {
       "en-US": "/en-US",
     },
   },
+  twitter: {
+    card: "summary_large_image",
+  },
   description: `Connect with strangers and expand your social circle in contemporary,
    cost-free, and spontaneous chat rooms without the need for registration.
     Enjoy anonymity and seamless interactions. Tailored for mobile users,
      female-centric conversations, and casual exchanges akin to Omegle text.
       Discover a perfect one-on-one chat alternative for vibrant interactions!`,
-  // description: `Chat with strangers and meet new friends in modern,
-  //  free and random chat rooms, anonymous &#38; No Registration Required.
-  //   Perfect for Mobile Chats, Girls Chat, Stranger Chats - a great one-on-one chats alternative to Omegle text.`,
 };
 export const viewport = {
   themeColor: "#020817",
