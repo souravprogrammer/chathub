@@ -3,9 +3,12 @@ import Image from "next/image";
 
 export const metadata = {
   title: "About",
-  description: `Chat with strangers and meet new friends in modern,
-   free and random chat rooms, anonymous &#38; No Registration Required.
-    Perfect for Mobile Chats, Girls Chat, Stranger Chats - a great one-on-one chats alternative to Omegle text.`,
+  description: `Welcome to our modern chat platform where you can connect with strangers and
+   forge new friendships effortlessly.
+    Explore our free and random chat rooms designed for anonymity and convenience – no registration required.
+     Our platform is optimized for mobile chats, girls chats, and stranger interactions,
+      offering a seamless alternative to Omegle text. 
+  Join us today and embark on meaningful one-on-one conversations in a safe and welcoming environment.`,
 };
 
 function Page() {
@@ -16,13 +19,12 @@ function Page() {
         <h2 className="h-3 mb-10 text-3xl font-bold">Our Story</h2>
         <div className="contents">
           <p className="text-center ">
-            {`In today’s fast-paced world, it can be challenging to meet new people.
-             That’s why we created Banter - to make it easier for people to connect with each other.
-              Our platform allows you to chat with people from all over the world, 
-              so you can expand your social circle and make meaningful connections. 
-              In addition, our platform offers loads of features and tools to make your 
-              chatting experience more enjoyable and interactive.
-             Join us today and start exploring a whole new world of socializing!`}
+            {`Making new friends might be difficult in today's fast-paced society.
+             That's why we launched Banter: to make it simpler for people to interact with one another.
+              Our platform enables you to communicate with individuals from all around the world.
+              so you may broaden your social circle and form important relationships. 
+              Our platform includes several features and tools to enhance your talking experience.
+             Join us now to discover a whole new world of socialising!`}
           </p>
         </div>
       </div>

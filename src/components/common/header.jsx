@@ -15,6 +15,7 @@ function Header({
   connected,
   startClicked,
   videoHeader,
+  isOpen,
 }) {
   const [online, setOnline] = useState(0);
   const { io } = useRoom();
@@ -48,16 +49,26 @@ function Header({
             skip
           </Button>
         ) : (
-          <Button disabled={startClicked} onClick={start}>
-            <div className="flex items-center gap-2">
-              <span>start</span>
-              {startClicked ? (
-                <div className="scale-[0.5]">
-                  <Loader />
+          <>
+            {isOpen ? (
+              <Button disabled={startClicked} onClick={start}>
+                <div className="flex items-center gap-2">
+                  <span>start</span>
+                  {startClicked ? (
+                    <div className="scale-[0.5]">
+                      <Loader />
+                    </div>
+                  ) : null}
                 </div>
-              ) : null}
-            </div>
-          </Button>
+              </Button>
+            ) : (
+              <Button disabled={startClicked} onClick={start}>
+                <div className="flex items-center gap-2">
+                  <span>Loading...</span>
+                </div>
+              </Button>
+            )}
+          </>
         )}
       </div>
     </header>

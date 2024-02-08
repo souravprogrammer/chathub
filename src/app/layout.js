@@ -5,12 +5,26 @@ const inter = Inter({ subsets: ["latin"] });
 const signika = Signika({ subsets: ["latin"] });
 
 export const metadata = {
-  title: "Banter - Talk to strangers",
+  title: {
+    default: "Banter - Talk to strangers",
+    template: "%s Banter - Talk to strangers",
+  },
   manifest: "/manifest.json",
-
-  description: `Chat with strangers and meet new friends in modern,
-   free and random chat rooms, anonymous &#38; No Registration Required.
-    Perfect for Mobile Chats, Girls Chat, Stranger Chats - a great one-on-one chats alternative to Omegle text.`,
+  siteName: "Banter",
+  alternates: {
+    canonical: "/",
+    languages: {
+      "en-US": "/en-US",
+    },
+  },
+  description: `Connect with strangers and expand your social circle in contemporary,
+   cost-free, and spontaneous chat rooms without the need for registration.
+    Enjoy anonymity and seamless interactions. Tailored for mobile users,
+     female-centric conversations, and casual exchanges akin to Omegle text.
+      Discover a perfect one-on-one chat alternative for vibrant interactions!`,
+  // description: `Chat with strangers and meet new friends in modern,
+  //  free and random chat rooms, anonymous &#38; No Registration Required.
+  //   Perfect for Mobile Chats, Girls Chat, Stranger Chats - a great one-on-one chats alternative to Omegle text.`,
 };
 export const viewport = {
   themeColor: "#020817",

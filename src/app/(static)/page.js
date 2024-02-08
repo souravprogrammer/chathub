@@ -36,10 +36,10 @@ export default function Home() {
                 </h4>
 
                 <p className="max-w-[900px]">
-                  Experience an exciting free random chat alternative to Find
-                  friends, connect with strangers, and talk with different
-                  people in random anonymous chat rooms. No registration
-                  required.
+                  Discover an interesting free random chat alternative to make
+                  new acquaintances, interact with strangers, and engage in
+                  diverse conversations in anonymous chat rooms. No registration
+                  is required..
                 </p>
                 <div className="flex items-center justify-center gap-2 px-1">
                   <Link href="/room">
@@ -63,20 +63,20 @@ export default function Home() {
             Anonymous Chat, Meet new people
           </h3>
           <p className="text-center text-primary/95  max-w-[930px]">
-            Find female and male strangers worldwide, the new modern Omegle
-            alternative. Connect with real people, enjoy ad free chats, and
-            build genuine relationships.
+            This contemporary alternative to Omegle allows you to connect with
+            strangers worldwide, both male and female. Connect with real people,
+            enjoy ad-free discussions, and develop genuine relationships.
           </p>
         </div>
         <div className="flex flex-col items-center gap-6">
           <div className="flex flex-col gap-2 md:flex-row lg:flex-row">
             <div className="flex-1 max-w-[550px] p-6 gap-4 flex flex-col">
               <h2 className="text-2xl font-bold">
-                Chat with Random Strangers With Similar Interests
+                Chat with Random Strangers Who Share Similar Interests
               </h2>
               <p>
-                Talk to online strangers who love what you love, Chat about
-                hobbies and enjoy fun conversations - all from one place!
+                Speak with strangers online who share your interests. Chat about
+                hobbies and have entertaining chats all in one spot!
               </p>
             </div>
             <div className="flex items-center justify-center">
@@ -101,9 +101,8 @@ export default function Home() {
             <div className="flex-1 max-w-[550px] p-6 gap-4 flex flex-col">
               <h2 className="text-2xl font-bold">From Strangers to Friends</h2>
               <p>
-                {`Turn random online chats with strangers into lasting
-                friendships, our features makes it easy to add someone you've
-                hit it off with and catch up on past conversations.`}
+                {`Our features make it simple to add someone you've struck it off with and follow up on prior talks,
+                 transforming spontaneous online encounters into long-lasting relationships.`}
               </p>
             </div>
           </div>

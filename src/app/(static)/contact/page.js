@@ -6,6 +6,15 @@ import React from "react";
 import { useToast } from "@/components/ui/use-toast";
 import { Toaster } from "@/components/ui/toaster";
 import { useState } from "react";
+
+export const metadata = {
+  title: "Contact us",
+  description: `Welcome to our Contact Us page. Feel free to reach out to us with any questions, feedback,
+   or inquiries you may have regarding our products or services. Our team is here to assist you.
+  Chat with strangers and meet new friends in modern,
+   free and random chat rooms`,
+};
+
 function Page() {
   const { toast } = useToast();
   const [loading, setLoading] = useState(false);

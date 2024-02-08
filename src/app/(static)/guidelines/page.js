@@ -1,5 +1,8 @@
 import React from "react";
 
+export const metadata = {
+  title: "Guidelines",
+};
 function Page() {
   return (
     <div className="py-[75px] px-4 md:p-[75px] text-pretty">
@@ -9,26 +12,24 @@ function Page() {
           <h2 className="text-3xl">Community Guidelines</h2>
           <p>{`Banter is a chat platform that allows you to:`}</p>
           <ul className="list-disc">
-            <li>{`Connect with others and form friendships on our platform.`}</li>
-            <li>{`Engage in conversations with others who share similar interests.`}</li>
-            <li>{`Enjoy a safe and respectful environment where everyone is welcome.`}</li>
+            <li>{`Our platform allows you to connect with people and create friendships.`}</li>
+            <li>{`Engage in chats with people who have similar interests.`}</li>
+            <li>{`Experience a safe and polite environment in which everyone is welcome.`}</li>
           </ul>
         </div>
 
         <div className="flex flex-col gap-4">
           <h2 className="text-3xl">{`What We Don’t Allow`}</h2>
           <p>
-            {`Engaging in any of the following actions will result in a warning and may lead to having your account suspended.`}
+            {`Engaging in any of the following activities will result in a warning and your account may be suspended.`}
           </p>
 
           <ul className="list-disc">
             <li>{`harass other individuals on the platform.`}</li>
-            <li>{`Using Banter for illegal operations. These include, but are not limited to, hacking, the cracking or distribution of pirated software, 
-            cheats, exploits or hacks for our or another company or person’s service.`}</li>
-            <li>{`Using Banter with malicious intent, in a way that is not reasonable under normal usage, in order to outsource computing and/or storage resources to our servers,
-             as well as other forms of Denial of Service to our infrastructure.`}</li>
-            <li>{`Sharing any type of imagery that depicts real-life violence, gore or animal cruelty. However,
-                an exception to this rule has been made for violence portrayed in media (including movies, games, books and such).`}</li>
+            <li>{`Using banter for illicit activities. Examples of prohibited activities include hacking, cracking, and distributing unauthorised software, as well as using cheats,
+             exploits, or hacks for personal or professional gain.`}</li>
+            <li>{`Malicious use of Banter to outsource compute and storage resources, as well as Denial of Service attacks on our infrastructure, goes beyond typical usage.`}</li>
+            <li>{`Sharing any photograph that portrays real-life violence, gore, or animal abuse. An exemption to this rule applies to violence shown in media, such as movies, games, and literature.`}</li>
           </ul>
           <p>{`To report any of the above activity, contact us at <Email>`}</p>
           <p>{`Please note we are committed to resolving every single report.

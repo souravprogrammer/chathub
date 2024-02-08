@@ -87,6 +87,7 @@ function Page() {
         start={start}
         skip={skip}
         connected={state.connected}
+        isOpen={isOpen}
         startClicked={isOpen ? startClicked : true}
       />
       <div
