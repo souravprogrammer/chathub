@@ -10,6 +10,9 @@ import { IoArrowBackOutline } from "react-icons/io5";
 import { IoMdSend } from "react-icons/io";
 import Message from "@/components/room/Message";
 import { useSound } from "@/lib/hooks";
+import dynamic from "next/dynamic";
+
+const AlertDialogRoom = dynamic(() => import("@/components/room/AlertDialoug"));
 
 function Page() {
   const [startClicked, setStartClicked] = useState(false);
@@ -24,6 +27,7 @@ function Page() {
     disconnectPeer,
     callPeer,
     isOpen,
+    connectionError,
   } = useRoom();
 
   useEffect(() => {
@@ -140,6 +144,14 @@ function Page() {
           </Button>
         </form>
       </div>
+      <AlertDialogRoom
+        open={!!connectionError}
+        title="Server Down"
+        description={`We apologize, but our server is currently experiencing technical difficulties and is unavailable.
+         Our team is working diligently to resolve the issue as quickly as possible. Thank you for your patience.`}
+      >
+        <Link href="/">home</Link>
+      </AlertDialogRoom>
     </main>
   );
 }

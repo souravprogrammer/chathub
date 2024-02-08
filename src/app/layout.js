@@ -7,16 +7,16 @@ const signika = Signika({ subsets: ["latin"] });
 export const metadata = {
   title: {
     default: "Banter - Talk to strangers",
-    template: "%s Banter - Talk to strangers",
+    template: "%s - Talk to strangers",
   },
   manifest: "/manifest.json",
   siteName: "Banter",
-  alternates: {
-    canonical: "/",
-    languages: {
-      "en-US": "/en-US",
-    },
-  },
+  // alternates: {
+  //   canonical: "/",
+  //   languages: {
+  //     "en-US": "/en-US",
+  //   },
+  // },
   twitter: {
     card: "summary_large_image",
   },

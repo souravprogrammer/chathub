@@ -192,7 +192,7 @@ function Page() {
       </div>
 
       <AlertDialogRoom
-        // open={!!connectionError}
+        open={!!connectionError}
         title="Server Down"
         description={`We apologize, but our server is currently experiencing technical difficulties and is unavailable.
          Our team is working diligently to resolve the issue as quickly as possible. Thank you for your patience.`}

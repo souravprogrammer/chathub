@@ -2,7 +2,7 @@ import React from "react";
 import Image from "next/image";
 
 export const metadata = {
-  title: "About",
+  title: { default: "About" },
   description: `Welcome to our modern chat platform where you can connect with strangers and
    forge new friendships effortlessly.
     Explore our free and random chat rooms designed for anonymity and convenience – no registration required.
