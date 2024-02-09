@@ -7,16 +7,20 @@ export const Events = {
   LOOK_FOR_PEER: "look_for_peer",
 };
 
-export function PeerData(id, mode = "video") {
-  this.peerId = id;
-  this.mode = mode;
+export class PeerData {
+  constructor(id, mode = "video", name) {
+    this.peerId = id;
+    this.mode = mode;
+    this.name = name;
+  }
 }
 // { message: message, id: meRef.current._id };
 export class Message {
   // type = "message" / "media" / "status"
-  constructor(message, id, type = "message") {
+  constructor(message, id, type = "message", name) {
     this.message = message;
     this.id = id;
     this.type = type;
+    this.name = name;
   }
 }

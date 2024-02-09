@@ -13,6 +13,14 @@ import { Peer } from "@/lib/PeerJs";
 import { Events, PeerData, Message } from "@/lib/Events";
 import { useMediaStream } from "@/lib/hooks";
 import { useSound, useNotification } from "@/lib/hooks";
+import {
+  uniqueNamesGenerator,
+  Config,
+  adjectives,
+  colors,
+  animals,
+} from "unique-names-generator";
+
 const socket = io(process.env.NEXT_PUBLIC_SOCKET || "no_url");
 
 const RoomContext = createContext();
@@ -59,12 +67,14 @@ function reducer(state, action) {
 }
 function RoomProvider({ children, mode }) {
   const meRef = useRef(null);
+
   const [isOpen, setIsOpen] = useState(false);
   const [connectionError, setConnectionError] = useState(null);
   const [state, dispatch] = useReducer(reducer, initialState);
   const messageSound = useSound("/audios/receive.mp3");
   const disconnectSound = useSound("/audios/disconnect.mp3");
   const { showNotification } = useNotification();
+  const nameRef = useRef();
 
   const Peerconenction = useRef({});
   const { mediaStream, error, AskPermission } = useMediaStream({
@@ -85,7 +95,10 @@ function RoomProvider({ children, mode }) {
     onOpen: async (id) => {
       // console.log("open");
       setIsOpen(true);
-      socket.emit(Events.CONNECTPEER, new PeerData(id, mode)); // telling server to look for the peers to conect
+      nameRef.current = uniqueNamesGenerator({
+        dictionaries: [adjectives, colors, animals],
+      }); // big_red_donkey
+      socket.emit(Events.CONNECTPEER, new PeerData(id, mode, nameRef.current)); // telling server to look for the peers to conect
     },
     onData: async (data) => {
       // console.log("data=>", data);
@@ -136,7 +149,13 @@ function RoomProvider({ children, mode }) {
         Peerconenction.current.dataChannel = connection;
         // console.log("chat connection open");
         connection.send(
-          new Message("user joined", meRef.current._id, "status")
+          new Message(
+            "user joined",
+
+            meRef.current._id,
+            "status",
+            nameRef.current
+          )
         );
         dispatch(connectedAction(true));
         connection.on("data", peerEvents.current.onData);
@@ -159,10 +178,9 @@ function RoomProvider({ children, mode }) {
       if (!mediaStream) return;
     }
 
-    // console.log("creating peer.. ");
     const peer = new Peer();
     meRef.current = peer;
-    // peer?.on("open", peerEvents.current.onOpen);
+
     // setme(peer);
     meRef.current?.on("open", peerEvents.current.onOpen);
     meRef.current?.on("connection", peerEvents.current.onConnection);
@@ -176,14 +194,16 @@ function RoomProvider({ children, mode }) {
       meRef.current?.off("call", peerEvents.current.onCall);
       meRef.current?.off("close", peerEvents.current.onClose);
       meRef.current?.off("error", peerEvents.current.onError);
-      // console.log("event dittached");
-
-      // me?.destroy();
     };
   }, [mediaStream]);
 
   const sendMessage = useCallback((message) => {
-    const mes = new Message(message, meRef.current._id, "message");
+    const mes = new Message(
+      message,
+      meRef.current._id,
+      "message",
+      nameRef.current
+    );
     // { message: message, id: meRef.current._id };
     dispatch(setMessagesAction(mes));
     Peerconenction.current.dataChannel?.send(mes);
@@ -216,7 +236,14 @@ function RoomProvider({ children, mode }) {
         // Receive messages
         // console.log("data connection open");
         Peerconenction.current.dataChannel = conn;
-        conn.send(new Message("user joined", meRef.current._id, "status"));
+        conn.send(
+          new Message(
+            "user joined",
+            meRef.current._id,
+            "status",
+            nameRef.current
+          )
+        );
         dispatch(connectedAction(true));
         Peerconenction.current.dataChannel.on(
           "data",

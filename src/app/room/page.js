@@ -160,6 +160,7 @@ function Page() {
               return (
                 <Message
                   key={index}
+                  name={data?.name}
                   type={data?.type}
                   text={data?.message}
                   self={data.id === meRef.current?._id}
