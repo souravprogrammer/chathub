@@ -40,7 +40,9 @@ function Page() {
       // Call the remore peer here
       // console.log("peer matched");
 
-      io.emit("is_busy", data);
+      // io.emit("is_busy", data);
+      callPeer(data.peerId, data.id);
+
       connecSound.play();
     };
     const onIncomingCall = () => {

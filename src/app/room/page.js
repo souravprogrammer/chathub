@@ -45,8 +45,8 @@ function Page() {
       disconnectPeer({ emit: false });
     };
     const onPeerMatched = (data) => {
-      io.emit("is_busy", data);
-      // callPeer(data.peerId, data.id);
+      // io.emit("is_busy", data);
+      callPeer(data.peerId, data.id);
     };
     const onIncomingCall = () => {
       // peere will call me shortly here
