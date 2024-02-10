@@ -13,6 +13,7 @@ import { Events } from "@/lib/Events";
 // import AlertDialogRoom from "@/components/room/AlertDialoug";
 
 import dynamic from "next/dynamic";
+import ReportDialouge from "@/components/room/ReportDialouge";
 const Header = dynamic(() => import("@/components/common/header"));
 const AlertDialogRoom = dynamic(() => import("@/components/room/AlertDialoug"));
 const Message = dynamic(() => import("@/components/room/Message"));
@@ -45,8 +46,7 @@ function Page() {
       disconnectPeer({ emit: false });
     };
     const onPeerMatched = (data) => {
-      // io.emit("is_busy", data);
-      callPeer(data.peerId, data.id);
+      callPeer(data.peerId, data.id, data);
     };
     const onIncomingCall = () => {
       // peere will call me shortly here
@@ -56,9 +56,7 @@ function Page() {
       // console.log("peer status", data);
 
       if (data) {
-        // setStatus("connected");
-
-        callPeer(data.peerId, data.id);
+        callPeer(data.peerId, data.id, data);
       }
     };
 
@@ -124,9 +122,19 @@ function Page() {
         </Button>
       </div>
       <div className="flex flex-row md:h-[calc(100dvh-75px)] h-[calc(100dvh)]">
-        <div className="flex flex-col flex-1 gap-[1px] p-0 md:gap-2 md:p-2">
+        <div className="flex flex-col flex-1 gap-[1px] p-0 md:gap-2 md:p-2 relative">
           <Stream stream={state.remoteStream} remote={true} online={online} />
           <Stream stream={mediaStream} muted />
+          <div className="absolute block bottom-7 left-4 md:hidden">
+            {!state?.connected && state?.messages?.length > 0 ? (
+              <>
+                <div className="flex items-center justify-center gap-3">
+                  <p>💔 This chat has ended</p>
+                  <ReportDialouge name={state?.remotePeer?.name} />
+                </div>
+              </>
+            ) : null}
+          </div>
         </div>
         <div
           className={`transition-all duration-300 ease-linear z-[20] border bg-background  border-indigo-200/20 h-[100dvh] md:h-[calc(100%)] w-[calc(100%-34px)] md:w-[400px] flex md:flex flex-col gap-2 p-2 absolute md:static top-0 ${
@@ -148,7 +156,8 @@ function Page() {
             data-te-perfect-scrollbar-init
             className="flex flex-col flex-1 gap-2 overflow-x-hidden overflow-y-scroll"
           >
-            {state?.messages?.length === 0 ? (
+            {/* state?.messages?.length === 0 */}
+            {!state?.connected && state?.messages?.length === 0 ? (
               <div className="flex justify-center">
                 <p className="text-center text-primary/50 max-w-[450px] align-center p-4">
                   Start chatting now to connect with random strangers from
@@ -161,12 +170,22 @@ function Page() {
                 <Message
                   key={index}
                   name={data?.name}
-                  type={data?.type}
+                  type={data.type}
                   text={data?.message}
                   self={data.id === meRef.current?._id}
                 />
               );
             })}
+            <div className="hidden md:block">
+              {!state?.connected && state?.messages?.length > 0 ? (
+                <>
+                  <div className="flex items-center justify-center gap-3">
+                    <p>💔 This chat has ended</p>
+                    <ReportDialouge name={state?.remotePeer?.name} />
+                  </div>
+                </>
+              ) : null}
+            </div>
           </div>
           <form
             className="flex bg-primary-foreground p-1 gap-1 overflow-hidden rounded-lg w-[100%]"

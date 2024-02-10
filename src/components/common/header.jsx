@@ -19,7 +19,6 @@ function Header({
 }) {
   const [online, setOnline] = useState(0);
   const { io } = useRoom();
-
   useEffect(() => {
     if (videoHeader) return;
 
@@ -32,7 +31,6 @@ function Header({
       io?.off("online", onlineUser);
     };
   }, []);
-
   return (
     <header className="h-[75px] flex justify-between items-center container">
       <Link href="/">
@@ -45,9 +43,7 @@ function Header({
         {videoHeader ? null : <p className="text-green-400">{online} online</p>}
 
         {connected ? (
-          <Button onClick={skip} variant="destructive">
-            skip
-          </Button>
+          <ConenctionButtons skip={skip} />
         ) : (
           <>
             {isOpen ? (
@@ -75,4 +71,32 @@ function Header({
   );
 }
 
+function ConenctionButtons({ skip }) {
+  const [confirm, setConfirm] = useState(false);
+
+  return (
+    <>
+      {confirm ? (
+        <Button
+          onClick={() => {
+            skip?.();
+            setConfirm(false);
+          }}
+          variant="destructive"
+        >
+          confirm?
+        </Button>
+      ) : (
+        <Button
+          onClick={() => {
+            setConfirm(true);
+          }}
+          variant="warning"
+        >
+          skip
+        </Button>
+      )}
+    </>
+  );
+}
 export default Header;

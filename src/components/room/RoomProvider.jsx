@@ -28,11 +28,15 @@ const initialState = {
   remoteStream: null,
   connected: false,
   messages: [],
+  remotePeer: null,
 };
 const Actions = {
   remoreStream: "remoreStream",
+  remotePeer: "remotePeer",
+
   reset: "reset",
   messages: "messages",
+  messageReset: "messageReset",
   roomid: "roomid",
   connected: "connected",
 };
@@ -48,6 +52,12 @@ function remoreStreamAction(payload) {
 function setRoomIdAction(payload) {
   return { type: Actions.roomid, payload: payload };
 }
+function setMessageReset() {
+  return { type: Actions.messageReset, payload: [] };
+}
+function setRemotePeerAction(payload) {
+  return { type: Actions.remotePeer, payload: payload };
+}
 export function resetAction() {
   return { type: Actions.reset, payload: null };
 }
@@ -58,9 +68,14 @@ function reducer(state, action) {
     case Actions.messages:
       return { ...state, messages: [...state.messages, action.payload] };
     case Actions.reset:
-      return { ...initialState };
+      return { ...state, remoteStream: null, connected: false };
     case Actions.connected:
       return { ...state, connected: action.payload };
+    case Actions.messageReset:
+      return { ...state, messages: [] };
+    case Actions.remotePeer:
+      return { ...state, remotePeer: action.payload };
+
     default:
       return state;
   }
@@ -144,6 +159,9 @@ function RoomProvider({ children, mode }) {
     },
     onConnection: async (connection) => {
       // console.log("connection", connection);
+      dispatch(setRemotePeerAction(null));
+      dispatch(setMessageReset());
+
       connection.on("open", () => {
         // datasend.current = connection;
         Peerconenction.current.dataChannel = connection;
@@ -210,8 +228,10 @@ function RoomProvider({ children, mode }) {
   }, []);
 
   const callPeer = useCallback(
-    async (id, socketId) => {
+    async (id, socketId, peerData) => {
       // console.log("me", id, mediaStream);
+      dispatch(setRemotePeerAction(peerData));
+
       let getUserMedia =
         navigator.mediaDevices.getUserMedia ||
         navigator.mediaDevices.webkitGetUserMedia ||
@@ -235,6 +255,9 @@ function RoomProvider({ children, mode }) {
       conn?.on("open", function () {
         // Receive messages
         // console.log("data connection open");
+        dispatch(setMessageReset());
+        dispatch(setRemotePeerAction(null));
+
         Peerconenction.current.dataChannel = conn;
         conn.send(
           new Message(
@@ -250,8 +273,6 @@ function RoomProvider({ children, mode }) {
           peerEvents.current.onData
         );
       });
-
-      // dispatch(resetAction(null));
     },
     [mediaStream]
   );
