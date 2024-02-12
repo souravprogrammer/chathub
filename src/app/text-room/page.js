@@ -43,7 +43,7 @@ function Page() {
 
       connecSound.play();
     };
-    const onIncomingCall = () => {};
+    const onIncomingCall = (data) => {};
     const onPeerStatus = (data) => {
       if (data) {
         callPeer(data.peerId, data.id, data);
@@ -81,9 +81,6 @@ function Page() {
     setStartClicked(true);
     io.emit("start_looking");
   };
-  // useEffect(() => {
-  //   console.log("state ", state);
-  // }, [state]);
   return (
     <main className="relative flex flex-col overflow-hidden md:container">
       <Header

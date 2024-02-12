@@ -14,12 +14,14 @@
     "@radix-ui/react-select": "^2.0.0",
     "@radix-ui/react-slot": "^1.0.2",
     "@radix-ui/react-toast": "^1.1.5",
+    "axios": "^1.6.7",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.0",
     "emoji-picker-react": "^4.7.12",
     "firebase": "^10.7.1",
     "lucide-react": "^0.303.0",
     "next": "14.0.4",
+    "next-client-cookies": "^1.1.0",
     "next-pwa": "^5.6.0",
     "nodemailer": "^6.9.9",
     "peerjs": "^1.5.2",
@@ -29,7 +31,8 @@
     "socket.io-client": "^4.7.4",
     "tailwind-merge": "^2.2.0",
     "tailwindcss-animate": "^1.0.7",
-    "unique-names-generator": "^4.7.1"
+    "unique-names-generator": "^4.7.1",
+    "universal-cookie": "^7.0.2"
   },
   "devDependencies": {
     "autoprefixer": "^10.0.1",

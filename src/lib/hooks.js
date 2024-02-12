@@ -92,4 +92,21 @@ const useNotification = () => {
 
   return { showNotification, notification };
 };
-export { useMediaStream, useSound, useNotification };
+const useSetDeviceToken = () => {
+  useEffect(() => {
+    if (process.env.NEXT_PUBLIC_SOCKET) {
+      fetch(process.env.NEXT_PUBLIC_SOCKET + "/device", {
+        cache: "no-store",
+        credentials: "include",
+      })
+        .then((res) => res.json())
+        .then((res) => {
+          console.log("set");
+        })
+        .catch((err) => {
+          console.log("error while setting", err);
+        });
+    }
+  }, []);
+};
+export { useMediaStream, useSound, useNotification, useSetDeviceToken };

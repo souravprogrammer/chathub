@@ -8,10 +8,11 @@ export const Events = {
 };
 
 export class PeerData {
-  constructor(id, mode = "video", name) {
+  constructor(id, mode = "video", name, deviceId) {
     this.peerId = id;
     this.mode = mode;
     this.name = name;
+    this.deviceToken = deviceId;
   }
 }
 // { message: message, id: meRef.current._id };

@@ -20,6 +20,7 @@ import {
   colors,
   animals,
 } from "unique-names-generator";
+import Cookies from "universal-cookie";
 
 const socket = io(process.env.NEXT_PUBLIC_SOCKET || "no_url");
 
@@ -71,11 +72,10 @@ function reducer(state, action) {
       return { ...state, remoteStream: null, connected: false };
     case Actions.connected:
       return { ...state, connected: action.payload };
-    case Actions.messageReset:
-      return { ...state, messages: [] };
     case Actions.remotePeer:
       return { ...state, remotePeer: action.payload };
-
+    case Actions.messageReset:
+      return { ...state, messages: [] };
     default:
       return state;
   }
@@ -113,7 +113,12 @@ function RoomProvider({ children, mode }) {
       nameRef.current = uniqueNamesGenerator({
         dictionaries: [adjectives, colors, animals],
       }); // big_red_donkey
-      socket.emit(Events.CONNECTPEER, new PeerData(id, mode, nameRef.current)); // telling server to look for the peers to conect
+      const cookies = new Cookies();
+      const deviceId = cookies.get("deviceToken");
+      socket.emit(
+        Events.CONNECTPEER,
+        new PeerData(id, mode, nameRef.current, deviceId)
+      ); // telling server to look for the peers to conect
     },
     onData: async (data) => {
       // console.log("data=>", data);
@@ -159,7 +164,7 @@ function RoomProvider({ children, mode }) {
     },
     onConnection: async (connection) => {
       // console.log("connection", connection);
-      dispatch(setRemotePeerAction(null));
+      // dispatch(setRemotePeerAction(null));
       dispatch(setMessageReset());
 
       connection.on("open", () => {
@@ -256,7 +261,7 @@ function RoomProvider({ children, mode }) {
         // Receive messages
         // console.log("data connection open");
         dispatch(setMessageReset());
-        dispatch(setRemotePeerAction(null));
+        // dispatch(setRemotePeerAction(null));
 
         Peerconenction.current.dataChannel = conn;
         conn.send(
@@ -293,24 +298,27 @@ function RoomProvider({ children, mode }) {
     const onDisconnect = () => {
       setIsOpen(false);
     };
-    socket.on("connect_error", err);
-    socket.on("connect_failed", faild);
-    socket.on("connect", connectServer);
-    socket.on("disconnect", onDisconnect);
+    const onIncomingCall = (data) => {
+      dispatch(setRemotePeerAction(data));
+    };
+    socket?.on(Events.INCOMING_CALL_REQUEST, onIncomingCall);
+
+    socket?.on("connect_error", err);
+    socket?.on("connect_failed", faild);
+    socket?.on("connect", connectServer);
+    socket?.on("disconnect", onDisconnect);
 
     return () => {
-      socket.close();
+      socket?.close();
       socket?.off("connect_error", err);
       socket?.off("connect_failed", faild);
       socket?.off("connect", connectServer);
       socket?.off("disconnect", onDisconnect);
+      socket?.off(Events.INCOMING_CALL_REQUEST);
 
       setConnectionError(null);
     };
   }, []);
-  useEffect(() => {
-    // console.log("open is", isOpen);
-  }, [isOpen]);
 
   return (
     <RoomContext.Provider
