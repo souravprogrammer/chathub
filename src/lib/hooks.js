@@ -1,4 +1,5 @@
 "use client";
+import Cookies from "universal-cookie";
 const {
   useState,
   useEffect,
@@ -95,13 +96,24 @@ const useNotification = () => {
 const useSetDeviceToken = () => {
   useEffect(() => {
     if (process.env.NEXT_PUBLIC_SOCKET) {
-      fetch(process.env.NEXT_PUBLIC_SOCKET + "/device", {
-        cache: "no-store",
-        credentials: "include",
-      })
+      const cookie = new Cookies();
+
+      fetch(
+        process.env.NEXT_PUBLIC_SOCKET +
+          "/device?deviceToken=" +
+          cookie.get("deviceToken"),
+        {
+          cache: "no-store",
+          credentials: "include",
+        }
+      )
         .then((res) => res.json())
         .then((res) => {
-          console.log("set");
+          if (res.token) {
+            cookie.set("deviceToken", res.token);
+          }
+          console.log("set", res);
+          res.token;
         })
         .catch((err) => {
           console.log("error while setting", err);
