@@ -42,9 +42,6 @@ function ReportDialouge({ name }) {
     }
   };
 
-  useEffect(() => {
-    console.log("state ", state);
-  }, [state]);
   return (
     <MyDialog
       open={open}
