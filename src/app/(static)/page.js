@@ -3,6 +3,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { Badge } from "@/components/ui/badge";
 import style from "@/styles/header.module.css";
+import { CarouselSize } from "@/components/carosal/Carosal";
 
 export default function Home() {
   return (
@@ -106,6 +107,14 @@ export default function Home() {
               </p>
             </div>
           </div>
+        </div>
+        <div className="flex flex-col items-center gap-6 px-4 py-[62px] text-center">
+          <h2 className="text-4xl font-bold">{"Don't take our word for it"}</h2>
+          <p>
+            {`We've asked random strangers both boys and girls to try our platform
+            and this is what they had to say`}
+          </p>
+          <CarouselSize />
         </div>
       </main>
     </>
