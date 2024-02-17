@@ -1,15 +1,7 @@
 "use client";
 import React, { useRef } from "react";
 import Autoplay from "embla-carousel-autoplay";
-
-import { Card, CardContent } from "@/components/ui/card";
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
-} from "@/components/ui/carousel";
+import { Carousel, CarouselContent } from "@/components/ui/carousel";
 import CarosalCard from "./CarosalCard";
 export function CarouselSize() {
   const plugin = useRef(Autoplay({ delay: 4000, stopOnInteraction: false }));
@@ -76,11 +68,11 @@ export function CarouselSize() {
         className="w-full max-w-sm md:max-w-[782px] lg:max-w-[1082px]"
       >
         <CarouselContent>
-          {reviews.map((review) => (
+          {reviews.map((review, i) => (
             <CarosalCard
+              key={i}
               content={review.content}
               name={review.reviewer}
-              key={review.name}
             />
           ))}
         </CarouselContent>

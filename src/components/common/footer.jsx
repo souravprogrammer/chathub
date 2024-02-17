@@ -38,7 +38,7 @@ function Footer() {
           <Link href="/guidelines">Community Guidelines</Link>
         </div>
       </div>
-      <p>All rights reserved. Banter 2024</p>
+      <p>All rights reserved. Banterz 2024</p>
     </footer>
   );
 }

@@ -1,43 +1,45 @@
+const URL = "https://banterz.online";
+
 export default function sitemap() {
   return [
     {
-      url: "https://banterz.vercel.app",
+      url: `${URL}`,
       lastModified: new Date(),
       changeFrequency: "weekly",
       priority: 1,
     },
     {
-      url: "https://banterz.vercel.app/room",
+      url: `${URL}/room`,
       lastModified: new Date(),
       changeFrequency: "weekly",
       priority: 0.8,
     },
     {
-      url: "https://banterz.vercel.app/text-room",
+      url: `${URL}/text-room`,
       lastModified: new Date(),
       changeFrequency: "monthly",
       priority: 0.8,
     },
     {
-      url: "https://banterz.vercel.app/guidelines",
+      url: `${URL}/guidelines`,
       lastModified: new Date(),
       changeFrequency: "yearly",
       priority: 0.6,
     },
     {
-      url: "https://banterz.vercel.app/terms",
+      url: `${URL}/terms`,
       lastModified: new Date(),
       changeFrequency: "monthly",
       priority: 0.6,
     },
     {
-      url: "https://banterz.vercel.app/about",
+      url: `${URL}/about`,
       lastModified: new Date(),
       changeFrequency: "monthly",
       priority: 0.9,
     },
     {
-      url: "https://banterz.vercel.app/contact",
+      url: `${URL}/contact`,
       lastModified: new Date(),
       changeFrequency: "yearly",
       priority: 0.5,

@@ -6,11 +6,11 @@ const signika = Signika({ subsets: ["latin"] });
 
 export const metadata = {
   title: {
-    default: "Banter - Talk to strangers",
+    default: "Banterz - Talk to strangers",
     template: "%s - Talk to strangers",
   },
   manifest: "/manifest.json",
-  siteName: "Banter",
+  siteName: "Banterz",
   // alternates: {
   //   canonical: "/",
   //   languages: {

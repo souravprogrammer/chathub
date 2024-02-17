@@ -23,7 +23,7 @@ function Page() {
           <p>
             {`We understand how daunting and tiresome legal paperwork can be,
              so we've simplified them while still giving necessary information.
-              Please read the terms carefully before using Banter,
+              Please read the terms carefully before using Banterz,
                as they are legally binding between you and us.
                 We will continue to update and address certain portions.`}
           </p>
@@ -36,7 +36,7 @@ function Page() {
           <ul className="list-disc">
             <li>{`Terms – the Terms of Service, a legally binding agreement between Us and You (“Terms”, “Terms of Service”)`}</li>
             <li>{`You – the user (“you”, “your” or “user”)`}</li>
-            <li>{`Banter – the service provided by us (“Banter”, “Platform”, “Service” or “Application”)`}</li>
+            <li>{`Banterz – the service provided by us (“Banterz”, “Platform”, “Service” or “Application”)`}</li>
           </ul>
           <p>
             {`Your access and use of the service are subject to your acceptance and compliance with these Terms. 
@@ -49,7 +49,7 @@ function Page() {
         <div className="flex flex-col gap-4">
           <h2 className="text-3xl">Understanding What We Are</h2>
           <p>
-            {`Banter is a chat programme that enables users to converse via instant messaging. Some content uploaded on the platform may link to external websites not hosted by us.
+            {`Banterz is a chat programme that enables users to converse via instant messaging. Some content uploaded on the platform may link to external websites not hosted by us.
             ****See 5. Additional related websites.`}
           </p>
           <p className="font-bold">{`By using our Service, you agree:`}</p>

@@ -10,7 +10,7 @@ function Page() {
         <h1 className="text-4xl text-center bold">Community Guidelines</h1>
         <div className="flex flex-col gap-4">
           <h2 className="text-3xl">Community Guidelines</h2>
-          <p>{`Banter is a chat platform that allows you to:`}</p>
+          <p>{`Banterz is a chat platform that allows you to:`}</p>
           <ul className="list-disc">
             <li>{`Our platform allows you to connect with people and create friendships.`}</li>
             <li>{`Engage in chats with people who have similar interests.`}</li>
@@ -26,9 +26,9 @@ function Page() {
 
           <ul className="list-disc">
             <li>{`harass other individuals on the platform.`}</li>
-            <li>{`Using banter for illicit activities. Examples of prohibited activities include hacking, cracking, and distributing unauthorised software, as well as using cheats,
+            <li>{`Using banterz for illicit activities. Examples of prohibited activities include hacking, cracking, and distributing unauthorised software, as well as using cheats,
              exploits, or hacks for personal or professional gain.`}</li>
-            <li>{`Malicious use of Banter to outsource compute and storage resources, as well as Denial of Service attacks on our infrastructure, goes beyond typical usage.`}</li>
+            <li>{`Malicious use of Banterz to outsource compute and storage resources, as well as Denial of Service attacks on our infrastructure, goes beyond typical usage.`}</li>
             <li>{`Sharing any photograph that portrays real-life violence, gore, or animal abuse. An exemption to this rule applies to violence shown in media, such as movies, games, and literature.`}</li>
           </ul>
           <p>{`To report any of the above activity, contact us at <Email>`}</p>
