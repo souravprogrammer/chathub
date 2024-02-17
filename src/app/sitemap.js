@@ -1,4 +1,4 @@
-const URL = "https://banterz.online";
+const URL = "https://www.banterz.online";
 
 export default function sitemap() {
   return [
