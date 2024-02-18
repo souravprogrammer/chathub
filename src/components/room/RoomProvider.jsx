@@ -88,6 +88,8 @@ function RoomProvider({ children, mode }) {
   const [state, dispatch] = useReducer(reducer, initialState);
   const messageSound = useSound("/audios/receive.mp3");
   const disconnectSound = useSound("/audios/disconnect.mp3");
+  const connecSound = useSound("/audios/connect.mp3");
+
   const { showNotification } = useNotification();
   const nameRef = useRef();
 
@@ -159,7 +161,7 @@ function RoomProvider({ children, mode }) {
           call.close();
         });
       } catch (err) {
-        // console.log("onCall error>>", err.message);
+        console.log("onCall error>>", err.message);
       }
     },
     onConnection: async (connection) => {
@@ -169,8 +171,11 @@ function RoomProvider({ children, mode }) {
 
       connection.on("open", () => {
         // datasend.current = connection;
+        connecSound?.play();
         Peerconenction.current.dataChannel = connection;
         // console.log("chat connection open");
+        connection.on("data", peerEvents.current.onData);
+
         connection.send(
           new Message(
             "user joined",
@@ -181,7 +186,6 @@ function RoomProvider({ children, mode }) {
           )
         );
         dispatch(connectedAction(true));
-        connection.on("data", peerEvents.current.onData);
       });
     },
     onDisconnect: async () => {
@@ -260,10 +264,15 @@ function RoomProvider({ children, mode }) {
       conn?.on("open", function () {
         // Receive messages
         // console.log("data connection open");
+        connecSound?.play();
         dispatch(setMessageReset());
         // dispatch(setRemotePeerAction(null));
 
         Peerconenction.current.dataChannel = conn;
+        Peerconenction.current.dataChannel.on(
+          "data",
+          peerEvents.current.onData
+        );
         conn.send(
           new Message(
             "user joined",
@@ -273,10 +282,6 @@ function RoomProvider({ children, mode }) {
           )
         );
         dispatch(connectedAction(true));
-        Peerconenction.current.dataChannel.on(
-          "data",
-          peerEvents.current.onData
-        );
       });
     },
     [mediaStream]
@@ -300,6 +305,7 @@ function RoomProvider({ children, mode }) {
     };
     const onIncomingCall = (data) => {
       dispatch(setRemotePeerAction(data));
+      connecSound?.play();
     };
     socket?.on(Events.INCOMING_CALL_REQUEST, onIncomingCall);
 
