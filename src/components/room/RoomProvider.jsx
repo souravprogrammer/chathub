@@ -205,29 +205,34 @@ function RoomProvider({ children, mode }) {
       if (!mediaStream) return;
     }
     const iceServer = [
+      // {
+      //   urls: "stun:stun.relay.metered.ca:80",
+      // },
       {
-        urls: "stun:stun.relay.metered.ca:80",
+        urls: "relay1.expressturn.com:3478",
+        username: "ef3XCV5Y38NXBDSXEG",
+        credential: "lFvJysvC5DpQRkJs",
       },
-      {
-        urls: "turn:global.relay.metered.ca:80",
-        username: "eb8125a85ae6f2ad4c428859",
-        credential: "9pGS4L9ozkSbLCVa",
-      },
-      {
-        urls: "turn:global.relay.metered.ca:80?transport=tcp",
-        username: "eb8125a85ae6f2ad4c428859",
-        credential: "9pGS4L9ozkSbLCVa",
-      },
-      {
-        urls: "turn:global.relay.metered.ca:443",
-        username: "eb8125a85ae6f2ad4c428859",
-        credential: "9pGS4L9ozkSbLCVa",
-      },
-      {
-        urls: "turns:global.relay.metered.ca:443?transport=tcp",
-        username: "eb8125a85ae6f2ad4c428859",
-        credential: "9pGS4L9ozkSbLCVa",
-      },
+      // {
+      //   urls: "turn:global.relay.metered.ca:80",
+      //   username: "eb8125a85ae6f2ad4c428859",
+      //   credential: "9pGS4L9ozkSbLCVa",
+      // },
+      // {
+      //   urls: "turn:global.relay.metered.ca:80?transport=tcp",
+      //   username: "eb8125a85ae6f2ad4c428859",
+      //   credential: "9pGS4L9ozkSbLCVa",
+      // },
+      // {
+      //   urls: "turn:global.relay.metered.ca:443",
+      //   username: "eb8125a85ae6f2ad4c428859",
+      //   credential: "9pGS4L9ozkSbLCVa",
+      // },
+      // {
+      //   urls: "turns:global.relay.metered.ca:443?transport=tcp",
+      //   username: "eb8125a85ae6f2ad4c428859",
+      //   credential: "9pGS4L9ozkSbLCVa",
+      // },
     ];
     const peer = new Peer({ config: { iceServers: iceServer } });
     meRef.current = peer;
