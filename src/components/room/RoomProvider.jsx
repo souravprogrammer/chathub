@@ -204,8 +204,32 @@ function RoomProvider({ children, mode }) {
     if (mode === "video") {
       if (!mediaStream) return;
     }
-
-    const peer = new Peer();
+    const iceServer = [
+      {
+        urls: "stun:stun.relay.metered.ca:80",
+      },
+      {
+        urls: "turn:global.relay.metered.ca:80",
+        username: "eb8125a85ae6f2ad4c428859",
+        credential: "9pGS4L9ozkSbLCVa",
+      },
+      {
+        urls: "turn:global.relay.metered.ca:80?transport=tcp",
+        username: "eb8125a85ae6f2ad4c428859",
+        credential: "9pGS4L9ozkSbLCVa",
+      },
+      {
+        urls: "turn:global.relay.metered.ca:443",
+        username: "eb8125a85ae6f2ad4c428859",
+        credential: "9pGS4L9ozkSbLCVa",
+      },
+      {
+        urls: "turns:global.relay.metered.ca:443?transport=tcp",
+        username: "eb8125a85ae6f2ad4c428859",
+        credential: "9pGS4L9ozkSbLCVa",
+      },
+    ];
+    const peer = new Peer({ config: { iceServers: iceServer } });
     meRef.current = peer;
 
     // setme(peer);
