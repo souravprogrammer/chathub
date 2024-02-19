@@ -204,22 +204,18 @@ function RoomProvider({ children, mode }) {
     if (mode === "video") {
       if (!mediaStream) return;
     }
-    const iceServer = [
-      { urls: "stun:stun.l.google.com:19302" },
-      { urls: "stun:stun.l.google.com:19305" },
-      { urls: "stun:stun.l.google.com:3478" },
-      { urls: "stun:stun2.l.google.com:19302" },
-      { urls: "stun:stun2.l.google.com:19305" },
-      { urls: "stun:stun.cloudflare.com:3478" },
-
-      {
-        urls: "stun:stun.relay.metered.ca:80",
-      },
+    const EXPRESS_TURN_SERVER = [
       {
         urls: "turn:relay1.expressturn.com:3478",
         username: "ef3XCV5Y38NXBDSXEG",
         credential: "lFvJysvC5DpQRkJs",
       },
+    ];
+    const PAIDTURNSERVER = [
+      {
+        urls: "stun:stun.relay.metered.ca:80",
+      },
+
       {
         urls: "turn:global.relay.metered.ca:80",
         username: "eb8125a85ae6f2ad4c428859",
@@ -240,6 +236,40 @@ function RoomProvider({ children, mode }) {
         username: "eb8125a85ae6f2ad4c428859",
         credential: "9pGS4L9ozkSbLCVa",
       },
+    ];
+    const FREETURNSERVER = [
+      {
+        urls: "stun:stun.relay.metered.ca:80",
+      },
+      {
+        urls: "turn:standard.relay.metered.ca:80",
+        username: "f7966a9723f9d4fbad08cca8",
+        credential: "VrQb2fgUbRGh3Wkt",
+      },
+      {
+        urls: "turn:standard.relay.metered.ca:80?transport=tcp",
+        username: "f7966a9723f9d4fbad08cca8",
+        credential: "VrQb2fgUbRGh3Wkt",
+      },
+      {
+        urls: "turn:standard.relay.metered.ca:443",
+        username: "f7966a9723f9d4fbad08cca8",
+        credential: "VrQb2fgUbRGh3Wkt",
+      },
+      {
+        urls: "turns:standard.relay.metered.ca:443?transport=tcp",
+        username: "f7966a9723f9d4fbad08cca8",
+        credential: "VrQb2fgUbRGh3Wkt",
+      },
+    ];
+    const iceServer = [
+      { urls: "stun:stun.l.google.com:19302" },
+      { urls: "stun:stun.l.google.com:3478" },
+      { urls: "stun:stun2.l.google.com:19302" },
+      { urls: "stun:stun.cloudflare.com:3478" },
+      ...PAIDTURNSERVER,
+      ...FREETURNSERVER,
+      ...EXPRESS_TURN_SERVER,
     ];
     const peer = new Peer({ config: { iceServers: iceServer } });
     meRef.current = peer;
