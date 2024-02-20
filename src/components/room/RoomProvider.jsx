@@ -143,10 +143,10 @@ function RoomProvider({ children, mode }) {
 
       try {
         let getUserMedia =
-          navigator.mediaDevices.getUserMedia ||
-          navigator.mediaDevices.webkitGetUserMedia ||
-          navigator.mediaDevices.mozGetUserMedia;
-        const str = await getUserMedia({
+          navigator?.mediaDevices?.getUserMedia ||
+          navigator?.mediaDevices?.webkitGetUserMedia ||
+          navigator?.mediaDevices?.mozGetUserMedia;
+        const str = await getUserMedia?.({
           video: { facingMode: "user" },
           audio: true,
         });

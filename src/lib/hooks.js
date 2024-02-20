@@ -17,10 +17,10 @@ const useMediaStream = ({ askPermission = false }) => {
     const getUserMedia = async () => {
       try {
         let getUserMedia =
-          navigator.mediaDevices.getUserMedia ||
-          navigator.mediaDevices.webkitGetUserMedia ||
-          navigator.mediaDevices.mozGetUserMedia;
-        const stream = await getUserMedia({
+          navigator?.mediaDevices?.getUserMedia ||
+          navigator?.mediaDevices?.webkitGetUserMedia ||
+          navigator?.mediaDevices?.mozGetUserMedia;
+        const stream = await getUserMedia?.({
           video: { facingMode: "user" },
           audio: true,
         });
