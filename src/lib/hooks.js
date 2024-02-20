@@ -40,6 +40,11 @@ const useMediaStream = ({ askPermission = false }) => {
       }
     };
   }, [mediaStream, isAllowed]);
+  useEffect(() => {
+    return () => {
+      setMediaStream(null);
+    };
+  }, []);
 
   const AskPermission = () => {
     setIsAllowed(true);
@@ -68,26 +73,38 @@ const useNotification = () => {
 
   useEffect(() => {
     // Request permission for browser notifications
-    Notification.requestPermission().then((permission) => {
-      console.log("Notification permission:", permission);
-    });
+    try {
+      Notification.requestPermission()
+        .then((permission) => {
+          console.log("Notification permission:", permission);
+        })
+        .catch((err) => {
+          console.log("Notification. ", err.message);
+        });
+    } catch (err) {
+      console.log("Notification ", err.message);
+    }
   }, []);
 
   const showNotification = (title, options) => {
-    if (!("Notification" in window)) {
-      // console.error("This browser does not support system notifications");
-    } else if (Notification.permission === "granted") {
-      // If permission is granted, show the notification
-      const newNotification = new Notification(title, options);
-      setNotification(newNotification);
-    } else if (Notification.permission !== "denied") {
-      // If permission has not been granted or denied, request permission again
-      Notification.requestPermission().then((permission) => {
-        if (permission === "granted") {
-          const newNotification = new Notification(title, options);
-          setNotification(newNotification);
-        }
-      });
+    try {
+      if (!("Notification" in window)) {
+        // console.error("This browser does not support system notifications");
+      } else if (Notification.permission === "granted") {
+        // If permission is granted, show the notification
+        const newNotification = new Notification(title, options);
+        setNotification(newNotification);
+      } else if (Notification.permission !== "denied") {
+        // If permission has not been granted or denied, request permission again
+        Notification.requestPermission().then((permission) => {
+          if (permission === "granted") {
+            const newNotification = new Notification(title, options);
+            setNotification(newNotification);
+          }
+        });
+      }
+    } catch (err) {
+      console.error(err.message);
     }
   };
 

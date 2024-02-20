@@ -114,7 +114,7 @@ export default function Home() {
             {`We've asked random strangers both boys and girls to try our platform
             and this is what they had to say`}
           </p>
-          <CarouselSize />
+          {/* <CarouselSize /> */}
         </div>
       </main>
     </>
